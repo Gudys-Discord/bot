@@ -15,14 +15,11 @@ jobs:
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
-      env:
-        TOKEN: ${{ secrets.PROD_TOKEN }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          export TOKEN=${{ secrets.PROD_TOKEN }}
           cd /root/bot
           git pull
           echo "Starting slash commands update."
