@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Gudys-Discord/bot/issues"
   },
-  "homepage": "https://github.com/Gudys-Discord/bot#readme"
+  "homepage": "https://github.com/Gudys-Discord/bot#readme",
+  "dependencies": {
+    "discord.js": "^14.15.2"
+  }
 }
