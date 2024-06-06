@@ -22,6 +22,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          export TOKEN=${{ secrets.PROD_TOKEN }}
           cd /root/bot
           git pull
           echo "Starting slash commands update."
