@@ -15,6 +15,8 @@ jobs:
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
+      env:
+        TOKEN: ${{ secrets.PROD_TOKEN }}
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
