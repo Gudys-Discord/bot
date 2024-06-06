@@ -5,7 +5,6 @@ module.exports = {
 		.setName('latency')
 		.setDescription('Replies with latency'),
 	async execute(interaction) {
-		await interaction.reply({ content: 'Pinging...' });
-		await interaction.editReply(`Pong! Latency is ${interaction.createdTimestamp - Date.now()}ms.`);
+		interaction.reply({ content: 'It works.' });
 	},
 };
