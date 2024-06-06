@@ -22,4 +22,4 @@ jobs:
         script: |
           cd /root/bot
           git pull
-          echo "SUCCESS."
+          echo "SUCCESS. 1"
