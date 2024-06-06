@@ -3,8 +3,6 @@ const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('node:path')
 
-console.log(process.env.TOKEN)
-
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
