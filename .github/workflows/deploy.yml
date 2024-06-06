@@ -25,5 +25,5 @@ jobs:
           echo "Starting slash commands update."
           node deploy-commands.js
           echo "Summoning pm2..."
-          pm2 start main.js
+          pm2 restart main.js
           echo "Finished starting application main.js"

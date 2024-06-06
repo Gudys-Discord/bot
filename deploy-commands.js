@@ -23,7 +23,7 @@ for (const folder of commandFolders) {
 	}
 }
 
-const rest = new REST().setToken(process.env.PROD_TOKEN);
+const rest = new REST().setToken(process.env.TOKEN);
 
 (async () => {
 	try {
