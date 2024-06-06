@@ -24,4 +24,6 @@ jobs:
         script: |
           cd /root/bot
           git pull
-          echo "SUCCESS. 1"
+          echo "Summoning pm2..."
+          pm2 start main.js
+          echo "Finished starting application main.js"

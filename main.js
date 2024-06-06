@@ -1,28 +1,39 @@
+const { Client, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
-const Discord = require('discord.js');
-const client = new Discord.Client();
 
-client.commands = new Discord.Collection();
+async function main() {
+    const client = new Client({
+        intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.GuildMessageReactions
+        ]
+    });
 
-// Command handler
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
+    client.commands = new Discord.Collection();
+
+    // Command handler
+    const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        client.commands.set(command.name, command);
+    }
+
+    // Event files
+    fs.readdir('./events/', (err, files) => {
+        if (err) return console.error(err);
+        files.forEach(file => {
+            const event = require(`./events/${file}`);
+            let eventName = file.split(".")[0];
+            client.on(eventName, event.bind(null, client));
+        });
+    });
+
+    client.once('ready', () => {
+        console.log('Client ready.');
+    });
+
+    await client.login(process.env.PROD_TOKEN);
 }
 
-// Event files
-fs.readdir('./events/', (err, files) => {
-    if (err) return console.error(err);
-    files.forEach(file => {
-        const event = require(`./events/${file}`);
-        let eventName = file.split(".")[0];
-        client.on(eventName, event.bind(null, client));
-    });
-});
-
-client.once('ready', () => {
-    console.log('Client ready.');
-});
-
-client.login(process.env.PROD_TOKEN);
+main().catch(console.error);
