@@ -17,8 +17,11 @@ module.exports = {
                 .setDescription('Disallow a member from using a command')
                 .addUserOption(option => option.setName('membro').setDescription('The member').setRequired(true))
         )
-        .setDefaultUserPermissions(PermissionFlagsBits.Administrator),
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
+        if (interaction.member.guild.ownerId !== interaction.user.id) {
+            return await interaction.reply({ content: 'Apenas o dono do servidor pode executar este comando.', ephemeral: true });
+        }
         const member = interaction.options.getUser('membro');
         const subcommand = interaction.options.getSubcommand();
 
