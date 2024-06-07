@@ -19,8 +19,8 @@ async function main() {
         ]
     });
 
-    client.on('ready', async () => {
-        console.log(`Logging in ${client.user.tag}!`);
+    client.once('ready', async () => {
+        console.log(`Logged in as ${client.user.tag}!`);
 
         const foldersPath = path.join(__dirname, 'commands');
         const commandFolders = await fs.readdir(foldersPath);
