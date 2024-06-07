@@ -2,7 +2,7 @@ require('dotenv').config();
 const { promises: fs } = require('fs');
 const path = require('path');
 const { Client: DiscordClient, Collection, GatewayIntentBits } = require('discord.js');
-const { connect } = require('./db');
+const { connectToDatabase } = require('./db.js');
 
 class Client extends DiscordClient {
     constructor(options) {
@@ -56,7 +56,7 @@ async function main() {
     });
 
     client.login(process.env.TOKEN).catch(console.error);
-    await connect();
+    await connectToDatabase();
 }
 
 main().catch(console.error);
