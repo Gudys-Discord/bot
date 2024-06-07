@@ -3,10 +3,6 @@ const { promises: fs } = require('fs');
 const path = require('path');
 const { Client: DiscordClient, Collection, GatewayIntentBits } = require('discord.js');
 
-/**
- * @param {import('discord.js').Client} client - The Discord client.
- */
-
 class Client extends DiscordClient {
     constructor(options) {
         super(options);
@@ -23,8 +19,8 @@ async function main() {
         ]
     });
 
-    client.once('ready', async () => {
-        console.log(`Logged in as ${client.user.tag}!`);
+    client.on('ready', async () => {
+        console.log(`Logging in ${client.user.tag}!`);
 
         const foldersPath = path.join(__dirname, 'commands');
         const commandFolders = await fs.readdir(foldersPath);
