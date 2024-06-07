@@ -13,6 +13,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Check for package.json changes
+      id: check
+      run: |
+        git diff --name-only HEAD^ HEAD | grep 'package.json' && echo "::set-output name=changed::true" || echo "::set-output name=changed::false"
+    
     - name: Deploy to VPS
       uses: appleboy/ssh-action@master
       with:
@@ -22,6 +27,10 @@ jobs:
         script: |
           cd /root/bot
           git pull
+          if [ "${{ steps.check.outputs.changed }}" = "true" ]; then
+            echo "package.json changed, running npm i"
+            npm i
+          fi
           echo "Starting slash commands update."
           node deploy-commands.js
           echo "Summoning pm2..."

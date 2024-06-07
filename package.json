@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Gudys-Discord/bot#readme",
   "dependencies": {
     "discord.js": "^14.15.2",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "mongodb": "^6.7.0"
   }
 }

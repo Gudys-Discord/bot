@@ -1,3 +1,4 @@
 {
-	"clientId": "1248433405092429876"
+	"clientId": "1248433405092429876",
+	"mongoUri": "mongodb+srv://bot:e0c91qRr8scS6Hkj@gudys-01.83m1rqx.mongodb.net/?retryWrites=true&w=majority&appName=gudys-01"
 }
