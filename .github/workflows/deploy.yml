@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 2  # this is important to fetch the last two commits
 
     - name: Check for package.json changes
       id: check
