@@ -26,7 +26,7 @@ module.exports = {
                 await closeDatabase();
             }
         } else if (interaction.isSelectMenu()) {
-            const [action, userId] = interaction.customId.split('_');
+            const [action, subcommand, userId] = interaction.customId.split('_');
             const selectedCommand = interaction.values[0];
             const allow = action === 'add';
 
