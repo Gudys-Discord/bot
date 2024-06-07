@@ -28,7 +28,7 @@ module.exports = {
         } else if (interaction.isSelectMenu()) {
             const [action, subcommand, userId] = interaction.customId.split('_');
             const selectedCommand = interaction.values[0];
-            const allow = action === 'add';
+            const allow = subcommand === 'add';
 
             try {
                 await connectToDatabase();
