@@ -7,13 +7,15 @@ module.exports = {
         .setDescription('Definir um membro como VIP')
         .addUserOption(option => option.setName('membro').setDescription('O membro a ser definido como VIP').setRequired(true))
         .addStringOption(option => option.setName('type').setDescription('O VIP a ser atribuído').setRequired(true)
-            .addChoice('VIP 1', '1')
-            .addChoice('VIP 2', '2')
-            .addChoice('VIP 3', '3')
-            .addChoice('VIP 4', '4')
-            .addChoice('VIP 5', '5')
-            .addChoice('VIP 6', '6')
-            .addChoice('VIP 7', '7')),
+            .addChoices([
+                { name: 'VIP 1', value: '1' },
+                { name: 'VIP 2', value: '2' },
+                { name: 'VIP 3', value: '3' },
+                { name: 'VIP 4', value: '4' },
+                { name: 'VIP 5', value: '5' },
+                { name: 'VIP 6', value: '6' },
+                { name: 'VIP 7', value: '7' },
+            ])),
     async execute(interaction) {
         const user = interaction.options.getUser('user');
         const type = interaction.options.getString('type');
