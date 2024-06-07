@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageActionRow, MessageSelectMenu, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, PermissionFlagsBits } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../../db');
 
 module.exports = {
@@ -25,9 +25,9 @@ module.exports = {
         const member = interaction.options.getUser('membro');
         const subcommand = interaction.options.getSubcommand();
 
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
             .addComponents(
-                new MessageSelectMenu()
+                new SelectMenuBuilder()
                     .setCustomId(`select_${subcommand}_${member.id}`)
                     .setPlaceholder('Nenhum comando selecionado')
                     .addOptions([
