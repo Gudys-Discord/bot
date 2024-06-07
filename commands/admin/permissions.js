@@ -8,13 +8,13 @@ module.exports = {
         .addSubcommand(subcommand =>
             subcommand
                 .setName('add')
-                .setDescription('Allow a member to use a command')
+                .setDescription('Permitir que um membro use um comando')
                 .addUserOption(option => option.setName('membro').setDescription('The member').setRequired(true))
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('remove')
-                .setDescription('Disallow a member from using a command')
+                .setDescription('Remover a permissão de um membro para usar um comando')
                 .addUserOption(option => option.setName('membro').setDescription('The member').setRequired(true))
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
