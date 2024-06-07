@@ -33,7 +33,7 @@ module.exports = {
                     .addOptions([
                         {
                             label: 'Set VIP',
-                            description: 'Allow or disallow the user to use the setvip command',
+                            description: 'Comando para definir um membro como VIP',
                             value: 'setvip',
                         },
                     ]),
