@@ -35,6 +35,8 @@ const rest = new REST().setToken(process.env.TOKEN);
 		);
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+
+		// rest.delete(Routes.applicationCommand(clientId, '1248435018745778266')).then(() => { console.log('Successfully deleted the "ping" command.') });
 	} catch (error) {
 		console.error(error);
 	}
