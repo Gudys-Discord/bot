@@ -17,7 +17,7 @@ module.exports = {
                 { name: 'VIP 7', value: '7' },
             ])),
     async execute(interaction) {
-        const user = interaction.options.getUser('user');
+        const user = interaction.options.getUser('membro');
         const type = interaction.options.getString('type');
 
         try {
