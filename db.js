@@ -1,42 +1,37 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const { mongoUri } = require('./config.json');
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
 
-const client = new MongoClient(mongoUri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
+const client = new MongoClient(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 });
 
-async function connect() {
-    try {
-        if (!client.topology || !client.topology.isConnected()) {
-            await client.connect();
-            console.log("Connected to MongoDB");
-        }
-        const db = client.db('discord');
-        const collection = db.collection('VIPs');
-        const vipData = {
-            userID: 'exampleUserID',
-            roleID: 'exampleRoleID',
-            purchaseDate: new Date(),
-            expirationDate: new Date(),
-            active: true,
-            isVIPAdmin: false
-        };
-        const existingData = await collection.findOne({});
-        if (!existingData) {
-            await collection.insertOne(vipData);
-            console.log("VIPs collection initialized for the first time.");
-        } else {
-            console.log("VIPs ready");
-        }
-        return db;
-    } catch (error) {
-        console.error('MongoDB connection error:', error);
-        throw error;
+let db;
+
+async function connectToDatabase() {
+    if (!client.isConnected()) {
+        await client.connect();
+    }
+    db = client.db('discord');
+    console.log('Connected to MongoDB');
+}
+
+function getDb() {
+    if (!db) {
+        throw new Error('Database not connected. Please call connectToDatabase first.');
+    }
+    return db;
+}
+
+async function closeDatabase() {
+    if (client.isConnected()) {
+        await client.close();
+        console.log('Disconnected from MongoDB');
     }
 }
 
-module.exports = { connect };
+module.exports = {
+    connectToDatabase,
+    getDb,
+    closeDatabase,
+};
