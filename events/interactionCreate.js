@@ -36,7 +36,7 @@ module.exports = {
                 const collection = db.collection('user_permissions');
 
                 await collection.updateOne(
-                    { userId, command: selectedCommand },
+                    { userId: userId, command: selectedCommand },
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
