@@ -9,7 +9,7 @@ const client = new MongoClient(process.env.MONGODB_URI, {
 let db;
 
 async function connectToDatabase() {
-    if (!client.isConnected()) {
+    if (!client.isConnected) {
         await client.connect();
     }
     db = client.db('discord');
@@ -24,7 +24,7 @@ function getDb() {
 }
 
 async function closeDatabase() {
-    if (client.isConnected()) {
+    if (client.isConnected) {
         await client.close();
         console.log('Disconnected from MongoDB');
     }
