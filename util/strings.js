@@ -80,5 +80,9 @@ module.exports = {
                 error: 'Houve um erro ao atualizar as permissões.'
             }
         }
+    },
+    guildMemberUpdate: {
+        removedRole: (member, role) => `VIP: Removed VIP role ${role} from ${member.user.tag} because they are not a VIP member in the database.`,
+        errorCheckingVipStatus: 'VIP: Error checking VIP status:'
     }
 }
