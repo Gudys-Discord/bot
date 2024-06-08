@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder, PermissionsBitField } = require('discord.js');
 const { getDb } = require('../../db');
 const vipManager = require('../../util/vipManager');
 
@@ -55,6 +55,7 @@ module.exports = {
         await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
 
         const collector = interaction.channel.createMessageComponentCollector({ time: 15000 });
+        
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
@@ -68,15 +69,26 @@ module.exports = {
                         permissionOverwrites: [
                           {
                             id: interaction.guild.roles.everyone,
-                            deny: ['CONNECT'],
+                            deny: [PermissionsBitField.Flags.Connect],
                           },
-                          {
+                        {
                             id: targetUser.id,
-                            allow: ['VIEW_CHANNEL', 'CONNECT', 'MOVE_MEMBERS', 'SPEAK', 'MANAGE_CHANNELS'],
-                          },
+                            allow: [
+                                PermissionsBitField.Flags.ViewChannel,
+                                PermissionsBitField.Flags.Connect,
+                                PermissionsBitField.Flags.SendMessages,
+                                PermissionsBitField.Flags.MoveMembers,
+                                PermissionsBitField.Flags.UseSoundboard,
+                                PermissionsBitField.Flags.UseExternalSounds
+                            ],
+                        },
                           {
                             id: VIP.id,
-                            allow: ['VIEW_CHANNEL', 'CONNECT', 'SEND_MESSAGES'],
+                            allow: [
+                                PermissionsBitField.Flags.ViewChannel,
+                                PermissionsBitField.Flags.Connect,
+                                PermissionsBitField.Flags.SendMessages,
+                            ],
                           },
                         ],
                         reason: `Canal VIP criado para ${targetUser.username}`,
