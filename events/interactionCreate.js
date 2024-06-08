@@ -11,8 +11,6 @@ module.exports = {
             await chatInputCommand.execute(interaction);
         } else if (interaction.isSelectMenu()) {
             await selectMenu.execute(interaction);
-        } else if (interaction.isButton()) {
-            await button.execute(interaction);
         } else if (interaction.isModalSubmit()) {
             await modalSubmit.execute(interaction);
         }

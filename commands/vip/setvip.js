@@ -62,7 +62,39 @@ module.exports = {
                         { name: 'VIP', value: VIProle.name, inline: true },
                         { name: 'Termina em', value: `<t:${Math.floor(existingVip.expirationDate.getTime() / 1000)}:f>`, inline: true }
                     );
-                return await interaction.reply({ embeds: [embed], components: [row]});
+                await interaction.reply({ embeds: [embed], components: [row]});
+
+                const filter = i => i.customId === 'remove_vip' || i.customId === 'change_expiry';
+                const collector = interaction.channel.createMessageComponentCollector({ filter, time: 15000 });
+
+                collector.on('collect', async i => {
+                    if (i.customId === 'remove_vip') {
+                        await member.roles.remove(VIProle);
+                        await vipsCollection.deleteOne({ userID: user.id });
+                        const embed = new EmbedBuilder()
+                            .setColor(VIProle.color)
+                            .setTitle(`VIP de ${user.username}`)
+                            .setDescription(strings.setvip.removeSuccess)
+                            .setTimestamp();
+                        await interaction.editReply({ embeds: [embed], components: [] });
+                    } else if (i.customId === 'change_expiry') {
+                        const modal = new ModalBuilder()
+                            .setTitle('Alterar data de expiração do VIP')
+                            .setCustomId('vipChangeExpiry');
+
+                        const daysToAddInput = new TextInputBuilder()
+                            .setCustomId('days_to_add')
+                            .setLabel('Quantos dias você quer adicionar?')
+                            .setRequired(true)
+                            .setStyle(1);
+
+                        const modalRow = new ActionRowBuilder().addComponents(daysToAddInput);
+
+                        await modal.addComponents(modalRow);
+                        await interaction.editReply({ components: [], embeds: [], content: ' ' });
+                        await interaction.editReply({ components: [modalRow], embeds: [], content: ' ' });
+                    }
+                });
             }
             const vipData = {
                 userID: user.id,
