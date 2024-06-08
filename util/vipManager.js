@@ -55,16 +55,16 @@ module.exports = {
             parentChannel: '1249120298297589810',
         },
     },
-    getParentChannel: async (vipName) => {
-        console.log('DEBUG VIP NAME AGAIN: ', vipName);
-        if (this.vipSettings[vipName].tier === 1) {
-            return this.tierSettings.one.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 2) {
-            return this.tierSettings.two.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 3) {
-            return this.tierSettings.three.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 4) {
-            return this.tierSettings.four.parentChannel;
+    getParentChannel: async function (vipName) {
+        const { vipSettings, tierSettings } = this;
+        if (vipSettings[vipName].tier === 1) {
+            return tierSettings.one.parentChannel;
+        } else if (vipSettings[vipName].tier === 2) {
+            return tierSettings.two.parentChannel;
+        } else if (vipSettings[vipName].tier === 3) {
+            return tierSettings.three.parentChannel;
+        } else if (vipSettings[vipName].tier === 4) {
+            return tierSettings.four.parentChannel;
         }
     }
 }
