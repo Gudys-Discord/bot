@@ -5,7 +5,7 @@ const strings = require('../../util/strings.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setvip')
-        .setDescription(this.strings.setvip.description)
+        .setDescription(strings.setvip.description)
         .addUserOption(option => option.setName('membro').setDescription(strings.setvip.options.member).setRequired(true))
         .addStringOption(option => option.setName('type').setDescription(strings.setvip.options.type).setRequired(true)
             .addChoices([
