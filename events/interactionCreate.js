@@ -1,7 +1,6 @@
 const { Events } = require('discord.js');
 const chatInputCommand = require('../interactions/chatInputCommand');
 const selectMenu = require('../interactions/selectMenu');
-const button = require('../interactions/button');
 const modalSubmit = require('../interactions/modalSubmit');
 
 module.exports = {
