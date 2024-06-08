@@ -70,7 +70,14 @@ module.exports = {
 
                 collector.on('collect', async i => {
                     if (i.customId === 'remove_vip') {
-                        await member.roles.remove(VIProle);
+                        const roleToDelete = guild.roles.cache.find(role => role.id === existingVip.type);
+                        const channelToDelete = guild.channels.cache.find(channel => channel.id === existingVip.vipChannel);
+                        if (roleToDelete) {
+                            await roleToDelete.delete();
+                        }
+                        if (channelToDelete) {
+                            await channelToDelete.delete();
+                        }
                         await vipsCollection.deleteOne({ userID: user.id });
                         const embed = new EmbedBuilder()
                             .setColor(VIProle.color)
