@@ -11,7 +11,8 @@ module.exports = {
         ),
     async execute(interaction) {
         let targetUser = interaction.options.getUser('membro');
-        if (!targetUser) targetUser = interaction.guild.members.cache.get(interaction.user.id);
+        if (!targetUser) targetUser = interaction.member || interaction.guild.members.resolve(interaction.user.id);
+
 
         const db = await getDb();
         const VIPs = db.collection('VIPs');
@@ -28,14 +29,14 @@ module.exports = {
             .setColor('#0099ff')
             .setTitle(`Painel VIP - ${targetUser.username}`)
             .addFields(
-            { name: 'Termina em', value: `<t:${Math.floor(vipDoc.expirationDate.getTime() / 1000)}:D>`, inline: true },
-            { name: 'Nome do VIP', value: VIP, inline: true },
-            { name: 'Ativo', value: vipDoc.active ? 'Sim' : 'Não', inline: true },
-            { name: 'Canal', value: vipDoc.vipChannel ? `<#${vipDoc.vipChannel}>` : 'Nenhum', inline: true },
-            { name: 'Cargo VIP', value: vipDoc.vipRole ? `<@&${vipDoc.vipRole}>` : 'Nenhum', inline: true });
-            if (vipDoc.isVIPAdmin) {
-                vipEmbed.addFields( { name: 'VIP Admin', value: 'Sim', inline: true } );
-            }
+                { name: 'Termina em', value: `<t:${Math.floor(vipDoc.expirationDate.getTime() / 1000)}:D>`, inline: true },
+                { name: 'Nome do VIP', value: VIP, inline: true },
+                { name: 'Ativo', value: vipDoc.active ? 'Sim' : 'Não', inline: true },
+                { name: 'Canal', value: vipDoc.vipChannel ? `<#${vipDoc.vipChannel}>` : 'Nenhum', inline: true },
+                { name: 'Cargo VIP', value: vipDoc.vipRole ? `<@&${vipDoc.vipRole}>` : 'Nenhum', inline: true });
+        if (vipDoc.isVIPAdmin) {
+            vipEmbed.addFields({ name: 'VIP Admin', value: 'Sim', inline: true });
+        }
 
         return interaction.reply({ embeds: [vipEmbed] });
     },
