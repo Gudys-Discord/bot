@@ -91,7 +91,7 @@ module.exports = {
             holyFck: 'HOLY F*CK',
             sexyStar: 'Sexy Star'
         },
-        success: (user, type) => `O usuário ${user} foi definido como VIP com o tipo ${type}.`
+        success: (username, roleName) => `O membro ${username} agora é um VIP com o cargo ${roleName}.`
     },    // Event Responses
     interactionCreate: {
         noCommand: (commandName) => `No command matching ${commandName} was found.`,
