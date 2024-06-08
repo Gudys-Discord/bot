@@ -61,7 +61,8 @@ module.exports = {
             await i.deferUpdate();
             if (i.customId === 'editChannel') {
                 if (!vipDoc.vipChannel) {
-                    const newChannel = await interaction.guild.channels.create(`VIP ${targetUser.username}`, {
+                    const newChannel = await interaction.guild.channels.create({
+                        name: `VIP ${targetUser.username}`,
                         type: 'GUILD_VOICE',
                         parent: await vipManager.getParentChannel(VIP.name),
                         permissionOverwrites: [
