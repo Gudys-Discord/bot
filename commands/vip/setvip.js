@@ -79,7 +79,10 @@ module.exports = {
                 .setColor(role.color)
                 .setTitle(`VIP de ${user.username}`)
                 .setDescription(strings.setvip.success(user.username, role.name))
-                .addField('VIP', role.name)
+                .addFields(
+                    { name: 'VIP', value: role.name },
+                    { name: 'Termina em', value: `<t:${Math.floor(vipData.expirationDate.getTime() / 1000)}:f>` }
+                )
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
