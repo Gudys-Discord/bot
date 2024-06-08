@@ -26,7 +26,7 @@ module.exports = {
                         await member.roles.remove(vipRole);
                     }
 
-                    await vipsCollection.deleteOne({ userID: interaction.values[0] });
+                    await vipsCollection.deleteOne({ userID: member.id });
                     await interaction.reply({ content: strings.setvip.removeSuccess, ephemeral: true });
                 } catch (error) {
                     console.error(error);
