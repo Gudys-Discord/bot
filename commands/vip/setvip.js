@@ -75,7 +75,13 @@ module.exports = {
 
             await vipsCollection.insertOne(vipData);
             await member.roles.add(role);
-            await interaction.reply(strings.setvip.success(user.username, role.name));
+            const embed = new EmbedBuilder()
+                .setColor(role.color)
+                .setTitle(`VIP de ${user.username}`)
+                .setDescription(strings.setvip.success(user.username, role.name))
+                .addField('VIP', role.name)
+                .setTimestamp();
+            await interaction.reply({ embeds: [embed] });
         } catch (error) {
             console.error(strings.errorResponse, error);
             await interaction.reply(string.errorResponse);
