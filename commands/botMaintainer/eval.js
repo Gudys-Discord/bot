@@ -1,5 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageEmbed, MessageAttachment } = require('discord.js');
 const colors = require('colors');
+const fs = require('fs');
+const util = require('util');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,43 +24,23 @@ module.exports = {
             let output = eval(input);
 
             if(typeof output !== 'string') {
-                output = require('util').inspect(output, { depth: 0 });
+                output = util.inspect(output, { depth: 0 });
             }
 
             if (output instanceof Promise) {
                 output = await output;
             }
 
-            if (typeof output !== 'string') {
-            }
-
-            const maxMessageLength = 5999;
-            let currentLength = 0;
-            let messageEmbeds = [];
-
-            const maxEmbedDescriptionLength = 4095;
-            const outputChunks = output.match(new RegExp('.{1,' + maxEmbedDescriptionLength + '}', 'g'));
-
-            const embeds = outputChunks.map((chunk, index) => {
-                return new EmbedBuilder()
+            if (output.length > 2000) {
+                fs.writeFileSync('output.txt', output);
+                const attachment = new MessageAttachment('output.txt');
+                await interaction.reply({ files: [attachment] });
+            } else {
+                const embed = new MessageEmbed()
                     .setTitle(`出力`)
-                    .setDescription(`\`\`\`js\n${chunk}\n\`\`\``)
+                    .setDescription(`\`\`\`js\n${output}\n\`\`\``)
                     .setColor('#0099ff');
-            });
-
-            for (const embed of embeds) {
-                const embedLength = JSON.stringify(embed.toJSON()).length;
-                if (currentLength + embedLength > maxMessageLength) {
-                    await interaction.reply({ embeds: messageEmbeds });
-                    messageEmbeds = [];
-                    currentLength = 0;
-                }
-                messageEmbeds.push(embed);
-                currentLength += embedLength;
-            }
-
-            if (messageEmbeds.length) {
-                await interaction.reply({ embeds: messageEmbeds });
+                await interaction.reply({ embeds: [embed] });
             }
 
         } catch (error) {
