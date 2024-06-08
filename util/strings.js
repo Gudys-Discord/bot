@@ -74,6 +74,9 @@ module.exports = {
         description: 'Definir um membro como VIP',
         add: 'Definir um membro como VIP',
         remove: 'Remover o VIP de um membro',
+        invalidDays: 'Você deve inserir um número válido de dias.',
+        changeExpirySuccess: 'O tempo de expiração do VIP foi alterado com sucesso.',
+        changeExpiryError: 'Houve um erro ao alterar o tempo de expiração do VIP.',
         options: {
             member: 'O membro a ser definido como VIP',
             type: 'O VIP a ser atribuído',
