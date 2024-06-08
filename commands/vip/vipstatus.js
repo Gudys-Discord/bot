@@ -10,7 +10,7 @@ module.exports = {
                 .setDescription('O usuário para verificar o status VIP')
         ),
     async execute(interaction) {
-        const targetUser = interaction.options.getUser('membro');
+        let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member;
 
         const db = await getDb();
@@ -31,9 +31,10 @@ module.exports = {
             { name: 'Termina em', value: `<t:${Math.floor(vipDoc.expirationDate.getTime() / 1000)}:D>`, inline: true },
             { name: 'Tipo', value: VIP, inline: true },
             { name: 'Ativo', value: vipDoc.active ? 'Sim' : 'Não', inline: true },
-            );
+            { name: 'Canal', value: vipDoc.vipChannel ? `<#${vipDoc.vipChannel}>` : 'Nenhum', inline: true },
+            { name: 'Cargo VIP', value: vipDoc.vipRole ? `<@&${vipDoc.vipRole}>` : 'Nenhum', inline: true });
             if (vipDoc.isVIPAdmin) {
-                vipEmbed.addField('É VIP Admin', 'Sim', true);
+                vipEmbed.addFields( { name: 'VIP Admin', value: 'Sim', inline: true } );
             }
 
         return interaction.reply({ embeds: [vipEmbed] });

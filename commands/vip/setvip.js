@@ -104,6 +104,8 @@ module.exports = {
                 expirationDate: new Date(),
                 active: true,
                 isVIPAdmin: false,
+                vipRole: null,
+                vipChannel: null
             };
 
             await vipsCollection.updateOne(vipData, { $set: vipData }, { upsert: true });

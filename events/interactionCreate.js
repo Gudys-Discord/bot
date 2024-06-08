@@ -6,6 +6,7 @@ const modalSubmit = require('../interactions/modalSubmit');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
+        if (interaction.guildId !== '737173603107340310') return interaction.reply('Este bot não pode ser utilizado aqui.');
         if (interaction.isChatInputCommand()) {
             await chatInputCommand.execute(interaction);
         } else if (interaction.isSelectMenu()) {
