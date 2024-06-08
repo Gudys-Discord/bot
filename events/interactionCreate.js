@@ -5,9 +5,6 @@ const strings = require('../util/strings.js');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
-        /*
-        * COMMAND HANDLER
-        */
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(interaction.commandName);
 
@@ -29,13 +26,9 @@ module.exports = {
             } finally {
                 await closeDatabase();
             }
-        /**
-         * SELECT MENU HANDLER
-         */
         } else if (interaction.isSelectMenu()) {
             const [prefix, subcommand, userId] = interaction.customId.split('_');
             const selectedCommandName = interaction.values[0];
-            console.log(prefix, subcommand, userId, selectedCommandName)
             const allow = subcommand === 'add';
 
             if (prefix !== 'select') {
@@ -50,10 +43,16 @@ module.exports = {
 
                 const commands = await interaction.guild.commands.fetch();
                 const selectedCommand = commands.find(cmd => cmd.name === selectedCommandName);
-                commands.each(cmd => console.log(cmd.name));
 
                 if (!selectedCommand) {
                     console.error(`No command found with the name: ${selectedCommandName}`);
+                    return;
+                }
+
+                const existingPermission = await collection.findOne({ userId: userId, command: selectedCommand.name });
+
+                if (existingPermission && existingPermission.allowed === allow) {
+                    await interaction.reply({ content: `O membro <@${userId}> já tem permissão para usar esse comando`, ephemeral: true });
                     return;
                 }
 

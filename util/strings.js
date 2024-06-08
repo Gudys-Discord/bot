@@ -6,6 +6,7 @@
  * @property {function (string), {username: string}} menu - The menu text
  * @property {string} menuPlaceholder - The menu placeholder text
  * @property {string} menuDescription - The menu description text
+ * @property {Object} ownerID - The owner ID object
  */
 
 /**
@@ -50,6 +51,7 @@ module.exports = {
         warning: (filePath) => `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
         logged: (tag) => `Logged in as ${tag}!`,
     },
+    ownerID: '440442804360052736',
     // Command Responses
     errorResponse: 'Houve um erro ao executar este comando!',
     noPermission: 'Você não tem permissão para executar este comando.',
