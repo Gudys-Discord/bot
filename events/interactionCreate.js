@@ -1,4 +1,4 @@
-const { Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { Events, ModalBuilder, TextInputBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
 
@@ -114,7 +114,7 @@ module.exports = {
                         .setCustomId('days_to_add')
                         .setLabel('Quantos dias você quer adicionar?')
                         .setRequired(true)
-                        .setStyle(TextInputStyle.NUMBER)
+                        .setStyle(1)
 
                     form.addComponents(daysToAddInput);
                     await interaction.showModal(form);
