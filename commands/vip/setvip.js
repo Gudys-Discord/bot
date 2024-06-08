@@ -93,6 +93,7 @@ module.exports = {
                         await modal.addComponents(modalRow);
                         await interaction.editReply({ components: [], embeds: [], content: ' ' });
                         await interaction.editReply({ components: [modalRow], embeds: [], content: ' ' });
+                        return;
                     }
                 });
             }
