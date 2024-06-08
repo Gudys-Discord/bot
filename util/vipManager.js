@@ -26,17 +26,17 @@ module.exports = {
             tier: 3,
         },
         infamous: {
-            name: 'Infamous',
+            name: 'infamous',
             id: '1248973502409736233',
             tier: 4,
         },
         holyFck: {
-            name: 'HolyFck',
+            name: 'holyFck',
             id: '1248973518897676374',
             tier: 4,
         },
         sexyStar: {
-            name: 'SexyStar',
+            name: 'sexyStar',
             id: '1248973532390490153',
             tier: null,
         },
