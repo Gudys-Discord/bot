@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const colors = require('colors');
-output = require('util').inspect(output, { depth: 0 });
 
 module.exports = {
     data: new SlashCommandBuilder()
