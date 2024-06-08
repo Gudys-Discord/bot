@@ -107,12 +107,12 @@ module.exports = {
                     // Construindo o formulário
                     const form = new ModalBuilder()
                         .setTitle('Alterar data de expiração do VIP')
-                        .setCustomId('days_to_add')
+                        .setCustomId('vipChangeExpiry')
 
                     // Adicionando opções ao formulário
                     const daysToAddInput = new TextInputBuilder()
-                        .setName('Dias')
-                        .setDescription('Digite a quantidade de dias que você quer adicionar ao VIP.')
+                        .setCustomId('days_to_add')
+                        .setLabel('Digite a quantidade de dias que você quer adicionar ao VIP.')
                         .setRequired(true)
                         .setStyle(TextInputStyle.NUMBER)
 
