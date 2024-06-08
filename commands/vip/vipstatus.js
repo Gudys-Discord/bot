@@ -95,7 +95,7 @@ module.exports = {
                       });
                       
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
-                    await i.update({ content: 'O seu canal não existia, criei ele para você agora. Você deseja editar o nome dele?' });
+                    if (!vipDoc.vipChannel) await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
                 } else {
                     const modal = new ModalBuilder()
                         .setTitle('Editar Canal')
