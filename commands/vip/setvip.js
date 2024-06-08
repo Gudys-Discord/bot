@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../../db');
 const strings = require('../../util/strings');
 
@@ -37,6 +37,19 @@ module.exports = {
             }
 
             const vipsCollection = db.collection('VIPs');
+            const existingVip = await vipsCollection.findOne({ userID: user.id, active: true });
+
+            if (existingVip) {
+                const embed = new EmbedBuilder()
+                    .setColor(role.color)
+                    .setTitle(`VIP Status for ${user.username}`)
+                    .setDescription(`${user.username} já é um VIP.`)
+                    .addFields(
+                        { name: 'VIP', value: role.name, inline: true },
+                        { name: 'Termina em', value: `<t:${Math.floor(existingVip.expirationDate.getTime() / 1000)}:f>`, inline: true }
+                    );
+                return await interaction.reply({ embeds: [embed] });
+            }
             const vipData = {
                 userID: user.id,
                 type: type,
