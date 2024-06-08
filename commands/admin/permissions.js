@@ -4,17 +4,17 @@ const strings = require('../../util/strings.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('permissions')
-        .setDescription(strings.permissions.description)
+        .setDescription('Gerenciar permissões de membros')
         .addSubcommand(subcommand =>
             subcommand
                 .setName('add')
-                .setDescription(strings.permissions.add)
+                .setDescription('Permitir que um membro use um comando')
                 .addUserOption(option => option.setName('membro').setRequired(true))
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('remove')
-                .setDescription(strings.permissions.remove)
+                .setDescription('Remover a permissão de um membro para usar um comando')
                 .addUserOption(option => option.setName('membro').setRequired(true))
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
@@ -33,7 +33,7 @@ module.exports = {
                     .addOptions([
                         {
                             label: 'Set VIP',
-                            description: strings.menuDescription,
+                            description: 'Comando para adicionar VIPs',
                             value: 'setvip',
                         },
                     ]),

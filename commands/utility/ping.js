@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const strings = require('../../util/strings.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,6 +8,6 @@ module.exports = {
 		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction) {
 		const timeTaken = Date.now() - interaction.createdTimestamp + interaction.client.ws.ping;
-		await interaction.reply(`Pong! This message had a latency of ${timeTaken}ms. It works.`);
+		await interaction.reply(strings.pingResponse(timeTaken));
 	},
 };

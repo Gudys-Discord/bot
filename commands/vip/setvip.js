@@ -5,7 +5,7 @@ const strings = require('../../util/strings');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setvip')
-        .setDescription('Set VIP role for a member')
+        .setDescription('Adiciona um VIP para um membro')
         .addUserOption(option => option.setName('membro').setDescription('Select the member').setRequired(true))
         .addStringOption(option => option.setName('type').setDescription('Select the VIP type').setRequired(true)
             .addChoices([
