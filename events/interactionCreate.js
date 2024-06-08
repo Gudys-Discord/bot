@@ -4,6 +4,9 @@ const { connectToDatabase, getDb, closeDatabase } = require('../db');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
+        /*
+        * COMMAND HANDLER
+        */
         if (interaction.isChatInputCommand()) {
             const command = interaction.client.commands.get(interaction.commandName);
 
@@ -25,6 +28,9 @@ module.exports = {
             } finally {
                 await closeDatabase();
             }
+        /*
+        * SELECT MENU HANDLER
+        */
         } else if (interaction.isSelectMenu()) {
             const [action, subcommand, userId] = interaction.customId.split('_');
             const selectedCommand = interaction.values[0];
@@ -40,7 +46,7 @@ module.exports = {
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
-                await interaction.update({ content: `Permissão ${allow ? 'adicionada' : 'removida'} para o comando ${selectedCommand}.`, components: [] });
+                await interaction.update({ content: `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando ${selectedCommand}.`, components: [] });
             } catch (error) {
                 console.error(error);
                 await interaction.update({ content: `Houve um erro ao atualizar as permissões.`, components: [] });
