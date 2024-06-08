@@ -42,8 +42,8 @@ module.exports = {
             if (existingVip) {
                 const embed = new EmbedBuilder()
                     .setColor(role.color)
-                    .setTitle(`VIP Status for ${user.username}`)
-                    .setDescription(`${user.username} já é um VIP.`)
+                    .setTitle(`VIP de ${user.username}`)
+                    .setDescription(`O membro \`${user.username}\` já é um VIP.`)
                     .addFields(
                         { name: 'VIP', value: role.name, inline: true },
                         { name: 'Termina em', value: `<t:${Math.floor(existingVip.expirationDate.getTime() / 1000)}:f>`, inline: true }
