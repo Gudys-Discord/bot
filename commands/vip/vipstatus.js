@@ -79,6 +79,7 @@ module.exports = {
                             allow: ['VIEW_CHANNEL', 'CONNECT', 'SEND_MESSAGES'],
                           },
                         ],
+                        reason: `Canal VIP criado para ${targetUser.username}`,
                       });
                       
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
