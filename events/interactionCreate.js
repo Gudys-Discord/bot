@@ -85,7 +85,7 @@ module.exports = {
                         }
 
                         const member = interaction.guild.members.cache.get(interaction.user.id);
-                        const vipRole = interaction.guild.roles.cache.find(role => role.name === 'VIP');
+                        const vipRole = interaction.guild.roles.cache.find(role => role.name === vip.type);
                         if (member && vipRole) {
                             await member.roles.remove(vipRole);
                         }
