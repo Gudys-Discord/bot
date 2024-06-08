@@ -62,7 +62,7 @@ module.exports = {
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
-                await interaction.update({ content: `O membro <@${userId}> agora ${allow ? 'pode' : 'não pode mais'} usar o comando <${selectedCommand.name}:${selectedCommand.id}>`, components: [] });
+                await interaction.update({ content: `O membro <@${userId}> agora ${allow ? 'pode' : 'não pode mais'} usar o comando </${selectedCommand.name}:${selectedCommand.id}>`, components: [] });
             } catch (error) {
                 console.error(error);
                 await interaction.update({ content: strings.interactionCreate.subMenu.error, components: [] });
