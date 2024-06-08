@@ -112,8 +112,8 @@ module.exports = {
                 .setTitle(`VIP de ${user.username}`)
                 .setDescription(strings.setvip.success(user.username, role.name))
                 .addFields(
-                    { name: 'VIP', value: role.name },
-                    { name: 'Termina em', value: `<t:${Math.floor(vipData.expirationDate.getTime() / 1000)}:f>` }
+                    { name: 'VIP', value: role.name, inline: true},
+                    { name: 'Termina em', value: `<t:${Math.floor(vipData.expirationDate.getTime() / 1000)}:f>`, inline: true}
                 )
                 .setTimestamp();
             await interaction.reply({ embeds: [embed] });
