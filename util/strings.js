@@ -20,9 +20,14 @@
  * @property {string} interactionError - The interaction error text
  */
 
-/** @type {Strings} */
+/** @type {strings} */
 
 module.exports = {
+    // Interal Strings
+    main: {
+        warning: (filePath) => `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+        logged: (tag) => `Logged in as ${tag}!`,
+    },
     // Command Responses
     errorResponse: 'Houve um erro ao executar este comando!',
     noPermission: 'Você não tem permissão para executar este comando.',
@@ -65,5 +70,15 @@ module.exports = {
             sexyStar: 'Sexy Star'
         },
     },    // Event Responses
-    interactionError: 'Houve um erro ao executar este comando!',
+    interactionCreate: {
+        noCommand: (commandName) => `No command matching ${commandName} was found.`,
+        commandFollowUpError: 'There was an error while executing this command!',
+        commandFollowUpReply: 'There was an error while executing this command!',
+        subMenu: {
+            permissions: {
+                success: (userId, allow) => `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando.`,
+                error: 'Houve um erro ao atualizar as permissões.'
+            }
+        }
+    }
 }

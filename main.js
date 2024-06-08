@@ -3,12 +3,12 @@ const { promises: fs } = require('fs');
 const path = require('path');
 const { Client: DiscordClient, Collection, GatewayIntentBits } = require('discord.js');
 const { connectToDatabase } = require('./db.js');
+const strings = require('./util/strings.js');
 
 class Client extends DiscordClient {
     constructor(options) {
         super(options);
         this.commands = new Collection();
-        this.strings = require('./util/strings');
     }
 }
 
@@ -22,7 +22,7 @@ async function main() {
     });
 
     client.once('ready', async () => {
-        console.log(`Logged in as ${client.user.tag}!`);
+        console.log(strings.main.logged(client.user.tag));   
 
         const foldersPath = path.join(__dirname, 'commands');
         const commandFolders = await fs.readdir(foldersPath);
@@ -37,7 +37,7 @@ async function main() {
                     command.execute = command.execute.bind(client);
                     client.commands.set(command.data.name, command);
                 } else {
-                    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                    console.log(strings.main.warning(filePath));
                 }
             }
         }

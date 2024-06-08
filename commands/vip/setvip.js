@@ -1,23 +1,24 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../../db');
+const strings = require('../../util/strings.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setvip')
         .setDescription(this.strings.setvip.description)
-        .addUserOption(option => option.setName('membro').setDescription(this.strings.setvip.options.member).setRequired(true))
-        .addStringOption(option => option.setName('type').setDescription(this.strings.setvip.options.type).setRequired(true)
+        .addUserOption(option => option.setName('membro').setDescription(strings.setvip.options.member).setRequired(true))
+        .addStringOption(option => option.setName('type').setDescription(strings.setvip.options.type).setRequired(true)
             .addChoices([
-                { name: this.strings.setvip.vips.yeezy, value: '1' },
-                { name: this.strings.setvip.vips.rollsRoyce, value: '2' },
-                { name: this.strings.setvip.vips.ghostGang, value: '3' },
-                { name: this.strings.setvip.vips.freeStyle, value: '4' },
-                { name: this.strings.setvip.vips.eightLife, value: '5' },
-                { name: this.strings.setvip.vips.infamous, value: '6' },
-                { name: this.strings.setvip.vips.holyFck, value: '7' },
-                { name: this.strings.setvip.vips.sexyStar, value: '8'}
+                { name: strings.setvip.vips.yeezy, value: '1' },
+                { name: strings.setvip.vips.rollsRoyce, value: '2' },
+                { name: strings.setvip.vips.ghostGang, value: '3' },
+                { name: strings.setvip.vips.freeStyle, value: '4' },
+                { name: strings.setvip.vips.eightLife, value: '5' },
+                { name: strings.setvip.vips.infamous, value: '6' },
+                { name: strings.setvip.vips.holyFck, value: '7' },
+                { name: strings.setvip.vips.sexyStar, value: '8'}
             ])),
-    async execute(interaction) {
+    async execute(strings, interaction) {
         const user = interaction.options.getUser('membro');
         const type = interaction.options.getString('type');
 

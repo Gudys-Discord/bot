@@ -1,5 +1,6 @@
 const { Events } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
+const strings = require('../util/strings.js');
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -11,7 +12,7 @@ module.exports = {
             const command = interaction.client.commands.get(interaction.commandName);
 
             if (!command) {
-                console.error(`No command matching ${interaction.commandName} was found.`);
+                console.error(strings.interactionCreate.noCommand(interaction.commandName));
                 return;
             }
 
@@ -21,9 +22,9 @@ module.exports = {
             } catch (error) {
                 console.error(error);
                 if (interaction.replied || interaction.deferred) {
-                    await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+                    await interaction.followUp({ content: strings.interactionCreate.commandFollowUpError, ephemeral: true });
                 } else {
-                    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+                    await interaction.reply({ content: strings.interactionCreate.commandFollowUpReply, ephemeral: true });
                 }
             } finally {
                 await closeDatabase();
@@ -49,10 +50,10 @@ module.exports = {
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
-                await interaction.update({ content: selectedCommand.id ? `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.` : 'Permissão atualizada.', components: [] });
+                await interaction.update({ content: strings.interactionCreate.subMenu.success(userId, allow), components: [] });
             } catch (error) {
                 console.error(error);
-                await interaction.update({ content: `Houve um erro ao atualizar as permissões.`, components: [] });
+                await interaction.update({ content: strings.interactionCreate.subMenu.error, components: [] });
             } finally {
                 await closeDatabase();
             }
