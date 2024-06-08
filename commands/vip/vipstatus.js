@@ -41,12 +41,12 @@ module.exports = {
         const editChannelButton = new ButtonBuilder()
             .setCustomId('editChannel')
             .setLabel('Editar Canal')
-            .setStyle('SECONDARY');
+            .setStyle(2);
 
         const editRoleButton = new ButtonBuilder()
             .setCustomId('editRole')
             .setLabel('Editar cargo')
-            .setStyle('SECONDARY');
+            .setStyle(2);
 
         const actionRow = new ActionRowBuilder()
             .addComponents(editChannelButton, editRoleButton);
