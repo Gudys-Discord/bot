@@ -9,7 +9,7 @@ module.exports = {
         .addUserOption(option => option.setName('membro').setDescription(strings.setvip.options.member).setRequired(true))
         .addStringOption(option => option.setName('type').setDescription(strings.setvip.options.type).setRequired(true)
             .addChoices([
-                { name: strings.setvip.vips.yeezy, value: '1248973408239226951' },
+                { name: strings.setvip.vips.yeezyGang, value: '1248973408239226951' },
                 { name: strings.setvip.vips.rollsRoyce, value: '1248973408239226951' },
                 { name: strings.setvip.vips.ghostGang, value: '1248973445753077791' },
                 { name: strings.setvip.vips.freeStyle, value: '1248973459883560970' },
