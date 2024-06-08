@@ -40,6 +40,7 @@ module.exports = {
             const existingVip = await vipsCollection.findOne({ userID: user.id, active: true });
 
             if (existingVip) {
+                const VIProle = guild.roles.cache.find(role => role.id === existingVip.type);
                 const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
@@ -54,11 +55,11 @@ module.exports = {
                     .setEmoji('🚫')
                 )
                 const embed = new EmbedBuilder()
-                    .setColor(role.color)
+                    .setColor(VIProle.color)
                     .setTitle(`VIP de ${user.username}`)
                     .setDescription(`O membro \`${user.username}\` já é um VIP.`)
                     .addFields(
-                        { name: 'VIP', value: role.name, inline: true },
+                        { name: 'VIP', value: VIProle.name, inline: true },
                         { name: 'Termina em', value: `<t:${Math.floor(existingVip.expirationDate.getTime() / 1000)}:f>`, inline: true }
                     );
                 return await interaction.reply({ embeds: [embed], components: [row]});
