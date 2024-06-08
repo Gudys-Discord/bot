@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder, PermissionsBitField, ChannelType } = require('discord.js');
 const { getDb } = require('../../db');
 const vipManager = require('../../util/vipManager');
 
@@ -64,7 +64,7 @@ module.exports = {
                 if (!vipDoc.vipChannel) {
                     const newChannel = await interaction.guild.channels.create({
                         name: `VIP ${targetUser.username}`,
-                        type: 'GUILD_VOICE',
+                        type: ChannelType.GuildVoice,
                         parent: await vipManager.getParentChannel(VIP.name),
                         permissionOverwrites: [
                           {
