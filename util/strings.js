@@ -93,7 +93,11 @@ module.exports = {
             holyFck: 'HOLY F*CK',
             sexyStar: 'Sexy Star'
         },
-        success: (username, roleName) => `O membro ${username} agora é um VIP com o cargo ${roleName}.`
+        success: (username, roleName) => `O membro ${username} agora é um VIP com o cargo ${roleName}.`,
+        noVip: 'O membro não é um VIP.',
+        removeSucceess: `O membro não é mais um VIP.`,
+        removeError: 'Houve um erro ao remover o VIP.',
+        changeExpiration: (time) => `O tempo de expiração do VIP foi alterado para ${time}.`
     },    // Event Responses
     interactionCreate: {
         noCommand: (commandName) => `No command matching ${commandName} was found.`,

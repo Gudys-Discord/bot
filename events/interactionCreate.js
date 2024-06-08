@@ -68,6 +68,38 @@ module.exports = {
             } finally {
                 await closeDatabase();
             }
+        } else if (interaction.isButton()) {
+            const buttonID = interaction.customId;
+
+            switch (buttonID) {
+                case 'remove_vip':
+                    try {
+                        await connectToDatabase();
+                        const db = getDb();
+                        const vipsCollection = db.collection('VIPs');
+                        const vip = await vipsCollection.findOne({ userID: interaction.user.id, active: true });
+
+                        if (!vip) {
+                            await interaction.reply({ content: strings.setvip.noVip, ephemeral: true });
+                            return;
+                        }
+
+                        await vipsCollection.updateOne(
+                            { userID: interaction.user.id },
+                            { $set: { active: false } }
+                        );
+                        await interaction.reply({ content: strings.setvip.removeSuccess, ephemeral: true });
+                    } catch (error) {
+                        console.error(error);
+                        await interaction.reply({ content: strings.setvip.removeError, ephemeral: true });
+                    } finally {
+                        await closeDatabase();
+                    }
+                    break;
+                case 'change_vip_expiration':
+                    await interaction.reply({ content: strings.setvip.changeExpiration('tempo'), ephemeral: true });
+                    break;
+            }
         }
     },
 };
