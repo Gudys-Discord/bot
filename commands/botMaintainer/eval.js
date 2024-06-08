@@ -21,6 +21,10 @@ module.exports = {
         try {
             let output = eval(input);
 
+            if(typeof output !== 'string') {
+                output = String(output)
+            }
+
             if (output instanceof Promise) {
                 output = await output;
             }
