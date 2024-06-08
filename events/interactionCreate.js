@@ -58,7 +58,7 @@ module.exports = {
                 }
 
                 await collection.updateOne(
-                    { userId: userId, command: selectedCommand.id },
+                    { userId: userId, command: selectedCommand.name },
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
