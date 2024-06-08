@@ -30,7 +30,7 @@ module.exports = {
             .setTitle(`Painel VIP - ${targetUser.username}`)
             .addFields(
                 { name: 'Termina em', value: `<t:${Math.floor(vipDoc.expirationDate.getTime() / 1000)}:D>`, inline: true },
-                { name: 'Nome do VIP', value: VIP, inline: true },
+                { name: 'Nome do VIP', value: VIP.name, inline: true },
                 { name: 'Ativo', value: vipDoc.active ? 'Sim' : 'Não', inline: true },
                 { name: 'Canal', value: vipDoc.vipChannel ? `<#${vipDoc.vipChannel}>` : 'Nenhum', inline: true },
                 { name: 'Cargo VIP', value: vipDoc.vipRole ? `<@&${vipDoc.vipRole}>` : 'Nenhum', inline: true });
