@@ -22,7 +22,7 @@ module.exports = {
             let output = eval(input);
 
             if(typeof output !== 'string') {
-                output = String(output)
+                output = require('util').inspect(output, { depth: 0 });
             }
 
             if (output instanceof Promise) {
