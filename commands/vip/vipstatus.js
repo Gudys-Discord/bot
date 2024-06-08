@@ -11,7 +11,7 @@ module.exports = {
         ),
     async execute(interaction) {
         let targetUser = interaction.options.getUser('membro');
-        if (!targetUser) targetUser = interaction.guild.members.cache.get(interaction.member.id);
+        if (!targetUser) targetUser = interaction.guild.members.cache.get(interaction.user.id);
 
         const db = await getDb();
         const VIPs = db.collection('VIPs');

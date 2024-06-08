@@ -20,17 +20,17 @@ module.exports = {
         }
 
         const input = interaction.options.getString('input');
-        try {
+        async function run(input) {
             let output = eval(input);
-
-            if(typeof output !== 'string') {
+        
+            if (typeof output !== 'string') {
                 output = util.inspect(output, { depth: 0 });
             }
-
+        
             if (output instanceof Promise) {
                 output = await output;
             }
-
+        
             if (output.length > 2000) {
                 fs.writeFileSync('output.txt', output);
                 const attachment = new MessageAttachment('output.txt');
@@ -42,7 +42,10 @@ module.exports = {
                     .setColor('#0099ff');
                 await interaction.reply({ embeds: [embed] });
             }
-
+        }
+        
+        try {
+            await run(input);
         } catch (error) {
             console.error(error);
             await interaction.reply({ content: 'コマンドの実行中にエラーが発生しました。', ephemeral: true });
