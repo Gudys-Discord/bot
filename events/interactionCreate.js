@@ -33,7 +33,7 @@ module.exports = {
         */
         } else if (interaction.isSelectMenu()) {
             const [action, subcommand, userId] = interaction.customId.split('_');
-            const selectedCommand = interaction.values[0];
+            const selectedCommandName = interaction.values[0];
             const allow = subcommand === 'add';
 
             try {
@@ -41,12 +41,14 @@ module.exports = {
                 const db = getDb();
                 const collection = db.collection('user_permissions');
 
+                const selectedCommand = await interaction.guild.commands.fetch().then(commands => commands.find(cmd => cmd.name === selectedCommandName));
+
                 await collection.updateOne(
-                    { userId: userId, command: selectedCommand },
+                    { userId: userId, command: selectedCommand.id },
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
-                await interaction.update({ content: `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando ${selectedCommand}.`, components: [] });
+                await interaction.update({ content: `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.`, components: [] });
             } catch (error) {
                 console.error(error);
                 await interaction.update({ content: `Houve um erro ao atualizar as permissões.`, components: [] });
