@@ -1,26 +1,26 @@
 const { SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, PermissionFlagsBits } = require('discord.js');
-const { connectToDatabase, getDb, closeDatabase } = require('../../db');
+const strings = require('./interactionReplies');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('permissions')
-        .setDescription('Manage command permissions for specific members')
+        .setDescription(strings.permissions.description)
         .addSubcommand(subcommand =>
             subcommand
                 .setName('add')
-                .setDescription('Permitir que um membro use um comando')
-                .addUserOption(option => option.setName('membro').setDescription('The member').setRequired(true))
+                .setDescription(strings.permissions.add)
+                .addUserOption(option => option.setName('membro').setRequired(true))
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('remove')
-                .setDescription('Remover a permissão de um membro para usar um comando')
-                .addUserOption(option => option.setName('membro').setDescription('The member').setRequired(true))
+                .setDescription(strings.permissions.remove)
+                .addUserOption(option => option.setName('membro').setRequired(true))
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         if (interaction.member.guild.ownerId !== interaction.user.id) {
-            return await interaction.reply({ content: 'Apenas o dono do servidor pode executar este comando.', ephemeral: true });
+            return await interaction.reply({ content: strings.ownerOnly, ephemeral: true });
         }
         const member = interaction.options.getUser('membro');
         const subcommand = interaction.options.getSubcommand();
@@ -29,16 +29,16 @@ module.exports = {
             .addComponents(
                 new SelectMenuBuilder()
                     .setCustomId(`select_${subcommand}_${member.id}`)
-                    .setPlaceholder('Nenhum comando selecionado')
+                    .setPlaceholder(strings.permissions.menuPlaceholder)
                     .addOptions([
                         {
                             label: 'Set VIP',
-                            description: 'Comando para definir um membro como VIP',
+                            description: strings.menuDescription,
                             value: 'setvip',
                         },
                     ]),
             );
 
-        await interaction.reply({ content: `Selecione qual comando você quer ${subcommand === 'add' ? 'permitir' : 'proibir'} para ${member.username}`, components: [row] });
+        await interaction.reply({ content: strings.permissions.menu, components: [row] });
     },
 };
