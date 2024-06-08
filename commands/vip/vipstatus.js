@@ -74,7 +74,7 @@ module.exports = {
                             allow: ['VIEW_CHANNEL', 'CONNECT', 'MOVE_MEMBERS', 'SPEAK', 'MANAGE_CHANNELS'],
                           },
                           {
-                            id: role.id,
+                            id: VIP.id,
                             allow: ['VIEW_CHANNEL', 'CONNECT', 'SEND_MESSAGES'],
                           },
                         ],
