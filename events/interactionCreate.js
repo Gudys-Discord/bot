@@ -1,4 +1,4 @@
-const { Events, TextInputBuilder } = require('discord.js');
+const { Events, ModalBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
 
@@ -104,7 +104,8 @@ module.exports = {
                     }
                     break;
                 case 'change_expiry':
-                    const form = new TextInputBuilder()
+                    const form = new ModalBuilder()
+                        .setTitle('Alterar data de expiração do VIP')
                         .setCustomId('days_to_add')
                         .setPlaceholder('Digite a nova data de expiração')
                         .setPlaceholder('30')
