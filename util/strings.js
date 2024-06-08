@@ -69,6 +69,8 @@ module.exports = {
         },
         menuPlaceholder: 'Nenhum comando selecionado',
         menuDescription: 'Comando para definir um membro como VIP',
+        hasPermissionAlready: 'O membro já tem essa permissão.',
+        success: (userId, allow) => `O membro <@${userId}> agora ${allow ? 'pode' : 'não pode mais'} usar o comando </${selectedCommand.name}:${selectedCommand.id}>
     },
     setvip: {
         description: 'Definir um membro como VIP',
