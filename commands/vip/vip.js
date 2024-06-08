@@ -57,7 +57,7 @@ module.exports = {
 
         await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
 
-        const collector = interaction.channel.createMessageComponentCollector({ time: 15000 });
+        const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
         
 
         collector.on('collect', async i => {
