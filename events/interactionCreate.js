@@ -96,7 +96,7 @@ module.exports = {
                         await closeDatabase();
                     }
                     break;
-                case 'change_vip_expiration':
+                case 'change_expiry':
                     await interaction.reply({ content: strings.setvip.changeExpiration('tempo'), ephemeral: true });
                     break;
             }
