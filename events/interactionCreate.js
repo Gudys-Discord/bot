@@ -1,4 +1,4 @@
-const { Events, ModalBuilder, TextInputBuilde, TextInputStyle } = require('discord.js');
+const { Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
 
