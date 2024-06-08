@@ -22,10 +22,11 @@ module.exports = {
             return interaction.reply(`Você não é VIP, ${targetUser.username}.`);
         }
 
-        const VIP = interaction.guild.roles.cache.find(role => role.id === vipDoc.type).name;
+        const VIP = interaction.guild.roles.cache.find(role => role.id === vipDoc.type);
+        const VIPColor = VIP ? VIP.color : null;
 
         const vipEmbed = new EmbedBuilder()
-            .setColor(VIP.color)
+            .setColor(VIPColor ? VIPColor : 'RANDOM')
             .setTitle(`Painel VIP - ${targetUser.username}`)
             .addFields(
                 { name: 'Termina em', value: `<t:${Math.floor(vipDoc.expirationDate.getTime() / 1000)}:D>`, inline: true },
