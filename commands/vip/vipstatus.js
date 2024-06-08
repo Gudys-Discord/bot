@@ -13,7 +13,6 @@ module.exports = {
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
 
-
         const db = await getDb();
         const VIPs = db.collection('VIPs');
 
@@ -38,6 +37,19 @@ module.exports = {
             vipEmbed.addFields({ name: 'VIP Admin', value: 'Sim', inline: true });
         }
 
-        return interaction.reply({ embeds: [vipEmbed] });
+        const editChannelButton = new ButtonBuilder()
+            .setCustomId('editChannel')
+            .setLabel('Editar Canal')
+            .setStyle('SECONDARY');
+
+        const editRoleButton = new ButtonBuilder()
+            .setCustomId('editRole')
+            .setLabel('Editar cargo')
+            .setStyle('SECONDARY');
+
+        const actionRow = new ActionRowBuilder()
+            .addComponents(editChannelButton, editRoleButton);
+
+        return interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
     },
 };
