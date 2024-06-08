@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageEmbed, MessageAttachment } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, MessageAttachment } = require('discord.js');
 const colors = require('colors');
 const fs = require('fs');
 const util = require('util');
@@ -36,7 +36,7 @@ module.exports = {
                 const attachment = new MessageAttachment('output.txt');
                 await interaction.reply({ files: [attachment] });
             } else {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setTitle(`出力`)
                     .setDescription(`\`\`\`js\n${output}\n\`\`\``)
                     .setColor('#0099ff');

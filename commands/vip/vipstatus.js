@@ -11,7 +11,7 @@ module.exports = {
         ),
     async execute(interaction) {
         let targetUser = interaction.options.getUser('membro');
-        if (!targetUser) targetUser = interaction.member || interaction.guild.members.resolve(interaction.user.id);
+        if (!targetUser) targetUser = interaction.member.user
 
 
         const db = await getDb();
