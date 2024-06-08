@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('discord.js');
-const { connectToDatabase } = require('../../db');
+const { getDb } = require('../../db');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +12,7 @@ module.exports = {
     async execute(interaction) {
         const targetUser = interaction.options.getUser('membro');
 
-        const db = await connectToDatabase();
+        const db = await getDb();
         const VIPs = db.collection('VIPs');
 
         const vipDoc = await VIPs.findOne({ userID: targetUser.id });
