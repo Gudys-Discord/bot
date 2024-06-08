@@ -1,4 +1,4 @@
-const { Events, ModalBuilder, TextInputBuilder } = require('discord.js');
+const { Events, ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
 
@@ -116,7 +116,9 @@ module.exports = {
                         .setRequired(true)
                         .setStyle(1)
 
-                    await modal.addComponents(daysToAddInput);
+                    const modalRow = new ActionRowBuilder().addComponents(daysToAddInput);
+
+                    await modal.addComponents(modalRow);
                     await interaction.showModal(modal);
                     break;
             }
