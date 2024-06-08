@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Gudys-Discord/bot#readme",
   "dependencies": {
+    "colors": "^1.4.0",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "mongodb": "^6.7.0"
