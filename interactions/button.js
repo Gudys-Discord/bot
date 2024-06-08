@@ -6,22 +6,15 @@ module.exports = {
     async execute(interaction) {
         const buttonID = interaction.customId;
 
-        console.log('Button ID:', buttonID); // Debugging console log
-
         switch (buttonID) {
             case 'remove_vip':
                 try {
-                    const member = interaction.options.getUser('membro');
-                    console.log('Member:', member); // Debugging console log
-                    const type = interaction.options.getString('type');
                     await connectToDatabase();
                     const db = getDb();
                     const vipsCollection = db.collection('VIPs');
                     const vip = await vipsCollection.findOne({ userID: member, active: true });
 
-                    console.log('Member:', member); // Debugging console log
-                    console.log('Type:', type); // Debugging console log
-                    console.log('VIP:', vip); // Debugging console log
+                    const member = interaction.guild.members.cache.get(vip.userID);
 
                     if (!vip) {
                         await interaction.reply({ content: strings.setvip.noVip, ephemeral: true });
@@ -37,7 +30,7 @@ module.exports = {
                     await vipsCollection.deleteOne({ userID: member.id });
                     await interaction.reply({ content: strings.setvip.removeSuccess, ephemeral: true });
                 } catch (error) {
-                    console.error('Error:', error); // Debugging console log
+                    console.error('Error:', error);
                     await interaction.reply({ content: strings.setvip.removeError, ephemeral: true });
                 } finally {
                     await closeDatabase();
