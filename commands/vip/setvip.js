@@ -38,9 +38,9 @@ module.exports = {
             }
 
             const vipsCollection = db.collection('VIPs');
-            const existingVip = await vipsCollection.findOne({ userID: user.id, active: true });
+            const existingVip = await vipsCollection.findOne({ userID: user.id });
 
-            if (existingVip) {
+            if (existingVip.active) {
                 const VIProle = guild.roles.cache.find(role => role.id === existingVip.type);
                 const row = new ActionRowBuilder()
                 .addComponents(
@@ -106,7 +106,7 @@ module.exports = {
                 isVIPAdmin: false,
             };
 
-            await vipsCollection.insertOne(vipData);
+            await vipsCollection.updateOne(vipData, { $set: vipData }, { upsert: true });
             await member.roles.add(role);
             const embed = new EmbedBuilder()
                 .setColor(role.color)
