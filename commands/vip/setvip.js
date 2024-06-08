@@ -43,15 +43,15 @@ module.exports = {
                 const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                    .setCustomId('remove_vip')
-                    .setLabel('Remover VIP')
-                    .setStyle('Danger')
-                    .setEmoji('🚫'),
-                    new ButtonBuilder()
                     .setCustomId('change_expiry')
                     .setLabel('Alterar Tempo de VIP')
                     .setStyle('Primary')
-                    .setEmoji('⏰')
+                    .setEmoji('⏰'),
+                    new ButtonBuilder()
+                    .setCustomId('remove_vip')
+                    .setLabel('Remover VIP')
+                    .setStyle('Secondary')
+                    .setEmoji('🚫')
                 )
                 const embed = new EmbedBuilder()
                     .setColor(role.color)

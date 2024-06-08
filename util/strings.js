@@ -101,8 +101,8 @@ module.exports = {
     },    // Event Responses
     interactionCreate: {
         noCommand: (commandName) => `No command matching ${commandName} was found.`,
-        commandFollowUpError: 'There was an error while executing this command!',
-        commandFollowUpReply: 'There was an error while executing this command!',
+        commandFollowUpError: 'Houve um erro ao executar este comando.',
+        commandFollowUpReply: 'Houve um erro ao executar este comando.',
         subMenu: {
             permissions: {
                 success: (userId, allow) => `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando.`,
