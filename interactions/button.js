@@ -10,6 +10,7 @@ module.exports = {
             case 'remove_vip':
                 try {
                     const member = interaction.options.get('membro').member;
+                    console.log(interaction.options)
                     await connectToDatabase();
                     const db = getDb();
                     const vipsCollection = db.collection('VIPs');
