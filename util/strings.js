@@ -95,7 +95,7 @@ module.exports = {
         },
         success: (username, roleName) => `O membro ${username} agora é um VIP com o cargo ${roleName}.`,
         noVip: 'O membro não é um VIP.',
-        removeSucceess: `O membro não é mais um VIP.`,
+        removeSuccess: `O membro não é mais um VIP.`,
         removeError: 'Houve um erro ao remover o VIP.',
         changeExpiration: (time) => `O tempo de expiração do VIP foi alterado para ${time}.`
     },    // Event Responses
