@@ -105,7 +105,7 @@ module.exports = {
                     break;
                 case 'change_expiry':
                     // Construindo o formulário
-                    const form = new ModalBuilder()
+                    const modal = new ModalBuilder()
                         .setTitle('Alterar data de expiração do VIP')
                         .setCustomId('vipChangeExpiry')
 
@@ -116,8 +116,8 @@ module.exports = {
                         .setRequired(true)
                         .setStyle(1)
 
-                    form.addComponents(daysToAddInput);
-                    await interaction.showModal(form);
+                    await modal.addComponents(daysToAddInput);
+                    await interaction.showModal(modal);
                     break;
             }
         } else if (interaction.isModalSubmit()) {
