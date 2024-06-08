@@ -4,17 +4,18 @@ const { connectToDatabase, getDb, closeDatabase } = require('../../db');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setvip')
-        .setDescription('Definir um membro como VIP')
-        .addUserOption(option => option.setName('membro').setDescription('O membro a ser definido como VIP').setRequired(true))
-        .addStringOption(option => option.setName('type').setDescription('O VIP a ser atribuído').setRequired(true)
+        .setDescription(strings.setvip.description)
+        .addUserOption(option => option.setName('membro').setDescription(strings.setvip.options.member).setRequired(true))
+        .addStringOption(option => option.setName('type').setDescription(strings.setvip.options.type).setRequired(true)
             .addChoices([
-                { name: 'VIP 1', value: '1' },
-                { name: 'VIP 2', value: '2' },
-                { name: 'VIP 3', value: '3' },
-                { name: 'VIP 4', value: '4' },
-                { name: 'VIP 5', value: '5' },
-                { name: 'VIP 6', value: '6' },
-                { name: 'VIP 7', value: '7' },
+                { name: strings.setvip.vips.yeezy, value: '1' },
+                { name: strings.setvip.vips.rollsRoyce, value: '2' },
+                { name: strings.setvip.vips.ghostGang, value: '3' },
+                { name: strings.setvip.vips.freeStyle, value: '4' },
+                { name: strings.setvip.vips.eightLife, value: '5' },
+                { name: strings.setvip.vips.infamous, value: '6' },
+                { name: strings.setvip.vips.holyFck, value: '7' },
+                { name: strings.setvip.vips.sexyStar, value: '8'}
             ])),
     async execute(interaction) {
         const user = interaction.options.getUser('membro');
