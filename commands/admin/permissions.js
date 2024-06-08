@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, PermissionFlagsBits } = require('discord.js');
-const strings = require('../../utils/strings.js');
+const strings = require('../../util/strings');
 
 module.exports = {
     data: new SlashCommandBuilder()
