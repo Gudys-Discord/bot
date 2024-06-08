@@ -1,5 +1,6 @@
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
+const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = {
     async execute(interaction) {
