@@ -5,6 +5,7 @@ const { ModalBuilder, TextInputBuilder, ActionRowBuilder } = require('discord.js
 module.exports = {
     async execute(interaction) {
         const buttonID = interaction.customId;
+        const interactionUserOption = interaction.options.getUser('membro');
 
         switch (buttonID) {
             case 'remove_vip':
@@ -12,9 +13,7 @@ module.exports = {
                     await connectToDatabase();
                     const db = getDb();
                     const vipsCollection = db.collection('VIPs');
-                    const vip = await vipsCollection.findOne({ userID: member, active: true });
-
-                    const member = interaction.guild.members.cache.get(vip.userID);
+                    const vip = await vipsCollection.findOne({ userID: interactionUserOption, active: true });
 
                     if (!vip) {
                         await interaction.reply({ content: strings.setvip.noVip, ephemeral: true });
