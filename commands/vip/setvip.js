@@ -38,9 +38,9 @@ module.exports = {
             }
 
             const vipsCollection = db.collection('VIPs');
-            const existingVip = await vipsCollection.findOne({ userID: user.id });
+            const existingVip = await vipsCollection.findOne({ userID: user.id, active: true});
 
-            if (existingVip.active) {
+            if (existingVip) {
                 const VIProle = guild.roles.cache.find(role => role.id === existingVip.type);
                 const row = new ActionRowBuilder()
                 .addComponents(
