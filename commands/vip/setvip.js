@@ -33,7 +33,8 @@ module.exports = {
             const permission = await permissionsCollection.findOne({ userId: interaction.user.id, command: 'setvip', allowed: true });
 
             if (!permission) {
-                return await interaction.reply(strings.noPermission);
+                await interaction.reply(strings.noPermission);
+                return;
             }
 
             const vipsCollection = db.collection('VIPs');
@@ -76,7 +77,7 @@ module.exports = {
                             .setTitle(`VIP de ${user.username}`)
                             .setDescription(strings.setvip.removeSuccess)
                             .setTimestamp();
-                        await interaction.editReply({ embeds: [embed], components: [] });
+                        await i.update({ embeds: [embed], components: [] });
                     } else if (i.customId === 'change_expiry') {
                         const modal = new ModalBuilder()
                             .setTitle('Alterar data de expiração do VIP')
@@ -90,12 +91,11 @@ module.exports = {
 
                         const modalRow = new ActionRowBuilder().addComponents(daysToAddInput);
 
-                        await modal.addComponents(modalRow);
-                        await interaction.editReply({ components: [], embeds: [], content: ' ' });
-                        await interaction.editReply({ components: [modalRow], embeds: [], content: ' ' });
+                        await i.update({ components: [modalRow], embeds: [], content: ' ' });
                         return;
                     }
                 });
+                return;
             }
             const vipData = {
                 userID: user.id,
