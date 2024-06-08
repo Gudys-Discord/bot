@@ -25,6 +25,7 @@
 module.exports = {
     // Command Responses
     errorResponse: 'Houve um erro ao executar este comando!',
+    noPermission: 'Você não tem permissão para executar este comando.',
     noMatchingCommand: (commandName) => `Nenhum comando correspondente a ${commandName} foi encontrado.`,
     permissionUpdated: (userId, allow, selectedCommand) => `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.`,
     permissionUpdateError: 'Houve um erro ao atualizar as permissões.',
@@ -63,7 +64,6 @@ module.exports = {
             holyFck: 'HOLY F*CK',
             sexyStar: 'Sexy Star'
         },
-    },
-    // Event Responses
+    },    // Event Responses
     interactionError: 'Houve um erro ao executar este comando!',
 }

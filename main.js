@@ -3,12 +3,12 @@ const { promises: fs } = require('fs');
 const path = require('path');
 const { Client: DiscordClient, Collection, GatewayIntentBits } = require('discord.js');
 const { connectToDatabase } = require('./db.js');
-global.strings = require('./util/strings');
 
 class Client extends DiscordClient {
     constructor(options) {
         super(options);
         this.commands = new Collection();
+        this.strings = require('./util/strings');
     }
 }
 
