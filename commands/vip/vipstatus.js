@@ -56,9 +56,10 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
+            await i.deferUpdate();
             if (i.customId === 'editChannel') {
                 if (!vipDoc.vipChannel) {
-                    const newChannel = await interaction.guild.channels.create('VIP Channel', { type: 'GUILD_VOICE' });
+                    const newChannel = await interaction.guild.channels.create('VIP Channel', { type: 'GUILD_TEXT' });
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
                     await i.update({ content: 'O seu canal não existia, criei ele para você agora. Você deseja editar o nome dele?' });
                 } else {
@@ -68,31 +69,48 @@ module.exports = {
                             new TextInputBuilder()
                                 .setCustomId('newChannelName')
                                 .setLabel('Qual o novo nome do canal?')
-                                .setPlaceholder('Deixe em branco para pular.')
+                                .setPlaceholder('Digite o novo nome aqui')
                         );
-                    await i.reply({ content: 'Alteração guardada com sucesso.', components: [modal] });
+                    await i.reply({ content: 'Editar Canal', components: [modal] });
                 }
             } else if (i.customId === 'editRole') {
                 if (!vipDoc.vipRole) {
-                    const newRole = await interaction.guild.roles.create({ name: `VIP de ${targetUser.username}` });
+                    const newRole = await interaction.guild.roles.create({ name: 'VIP Role' });
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipRole: newRole.id } });
                     await i.update({ content: 'O seu cargo não existia, criei ele para você agora. Você deseja editar o nome dele?' });
                 } else {
+
                     const modal = new ModalBuilder()
                         .setTitle('Editar cargo')
                         .addComponents(
                             new TextInputBuilder()
                                 .setCustomId('newRoleName')
                                 .setLabel('Qual o novo nome do cargo?')
-                                .setPlaceholder('Deixe em branco para pular.')
+                                .setPlaceholder('Digite o novo nome aqui')
                         );
-                    await i.reply({ content: 'Alteração guardada com sucesso.', components: [modal] });
+                    await i.reply({ content: 'Editar cargo', components: [modal] });
                 }
             }
         });
-
+        
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
         });
+
+        const textInputCollector = interaction.channel.createMessageComponentCollector({ time: 15000 });
+        
+        textInputCollector.on('collect', async i => {
+            if (i.customId === 'newChannelName') {
+                const newChannelName = i.values[0];
+                const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
+                await channel.setName(newChannelName);
+                await i.update({ content: `O nome do canal foi alterado para ${newChannelName}` });
+            } else if (i.customId === 'newRoleName') {
+                const newRoleName = i.values[0];
+                const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
+                await role.setName(newRoleName);
+                await i.update({ content: `O nome do cargo foi alterado para ${newRoleName}` });
+            }
+        });        
     },
 };
