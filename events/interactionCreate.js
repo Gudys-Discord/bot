@@ -35,6 +35,7 @@ module.exports = {
         } else if (interaction.isSelectMenu()) {
             const [prefix, subcommand, userId] = interaction.customId.split('_');
             const selectedCommandName = interaction.values[0];
+            console.log(prefix, subcommand, userId, selectedCommandName)
             const allow = subcommand === 'add';
 
             if (prefix !== 'select') {
