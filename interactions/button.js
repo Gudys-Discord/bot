@@ -11,8 +11,9 @@ module.exports = {
         switch (buttonID) {
             case 'remove_vip':
                 try {
-                    const member = interaction.message.interaction.options.getUser('membro');
-                    const type = interaction.message.interaction.options.getString('type');
+                    const member = interaction.options.getUser('membro');
+                    console.log('Member:', member); // Debugging console log
+                    const type = interaction.options.getString('type');
                     await connectToDatabase();
                     const db = getDb();
                     const vipsCollection = db.collection('VIPs');
