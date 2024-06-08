@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder, PermissionFlagsBits } = require('discord.js');
-const strings = require('../../util/strings.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,27 +8,26 @@ module.exports = {
             subcommand
                 .setName('add')
                 .setDescription('Permitir que um membro use um comando')
-                .addUserOption(option => option.setName('membro').setRequired(true))
+                .addUserOption(option => option.setName('membro').setDescription('O membro que você quer permitir usar um comando.').setRequired(true))
         )
         .addSubcommand(subcommand =>
             subcommand
                 .setName('remove')
                 .setDescription('Remover a permissão de um membro para usar um comando')
-                .addUserOption(option => option.setName('membro').setRequired(true))
+                .addUserOption(option => option.setName('membro').setDescription('O membro que você quer proibir de usar um comando.').setRequired(true))
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
         if (interaction.member.guild.ownerId !== interaction.user.id) {
-            return await interaction.reply({ content: strings.ownerOnly, ephemeral: true });
+            return await interaction.reply({ content: 'This command is owner only.', ephemeral: true });
         }
         const member = interaction.options.getUser('membro');
         const subcommand = interaction.options.getSubcommand();
-
         const row = new ActionRowBuilder()
             .addComponents(
                 new SelectMenuBuilder()
                     .setCustomId(`select_${subcommand}_${member.id}`)
-                    .setPlaceholder(strings.permissions.menuPlaceholder)
+                    .setPlaceholder('Select an option')
                     .addOptions([
                         {
                             label: 'Set VIP',
@@ -39,6 +37,6 @@ module.exports = {
                     ]),
             );
 
-        await interaction.reply({ content: strings.permissions.menu, components: [row] });
+        await interaction.reply({ content: 'Please select an option from the menu.', components: [row] });
     },
 };
