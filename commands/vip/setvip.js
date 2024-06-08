@@ -5,18 +5,18 @@ const strings = require('../../util/strings');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('setvip')
-        .setDescription('Adiciona um VIP para um membro')
-        .addUserOption(option => option.setName('membro').setDescription('Select the member').setRequired(true))
-        .addStringOption(option => option.setName('type').setDescription('Select the VIP type').setRequired(true)
+        .setDescription(strings.setvip.description)
+        .addUserOption(option => option.setName('membro').setDescription('Selecione o membro').setRequired(true))
+        .addStringOption(option => option.setName('type').setDescription('Selecione o VIP').setRequired(true)
             .addChoices([
-                { name: 'Yeezy Gang', value: '1248973408239226951' },
-                { name: 'Rolls Royce', value: '1248973408239226951' },
-                { name: 'Ghost Gang', value: '1248973445753077791' },
-                { name: 'Free Style', value: '1248973459883560970' },
-                { name: 'Eight Life', value: '1248973481987543083' },
-                { name: 'Infamous', value: '1248973502409736233' },
-                { name: 'Holy Fck', value: '1248973518897676374' },
-                { name: 'Sexy Star', value: '1248973532390490153'}
+                { name: strings.setvip.vips.yeezyGang, value: '1248973408239226951' },
+                { name: strings.setvip.vips.rollsRoyce, value: '1248973408239226951' },
+                { name: strings.setvip.vips.ghostGang, value: '1248973445753077791' },
+                { name: strings.setvip.vips.freestyle, value: '1248973459883560970' },
+                { name: strings.setvip.vips.eightLife, value: '1248973481987543083' },
+                { name: strings.setvip.vips.infamous, value: '1248973502409736233' },
+                { name: strings.setvip.vips.holyFck, value: '1248973518897676374' },
+                { name: strings.setvip.vips.sexyStar, value: '1248973532390490153'}
             ])),
     async execute(interaction) {
         const user = interaction.options.getUser('membro');
