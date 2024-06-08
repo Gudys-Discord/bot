@@ -11,6 +11,7 @@ module.exports = {
         ),
     async execute(interaction) {
         const targetUser = interaction.options.getUser('membro');
+        if (!targetUser) targetUser = interaction.member;
 
         const db = await getDb();
         const VIPs = db.collection('VIPs');
