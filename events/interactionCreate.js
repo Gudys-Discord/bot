@@ -50,7 +50,7 @@ module.exports = {
 
                 const commands = await interaction.guild.commands.fetch();
                 const selectedCommand = commands.find(cmd => cmd.name === selectedCommandName);
-                console.log(selectedCommand)
+                commands.each(cmd => console.log(cmd.name));
 
                 if (!selectedCommand) {
                     console.error(`No command found with the name: ${selectedCommandName}`);
