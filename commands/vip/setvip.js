@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../../db');
-const strings = require('../../util/strings.js');
+const strings = require('../../util/strings');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -33,7 +33,7 @@ module.exports = {
             const permission = await permissionsCollection.findOne({ userId: interaction.user.id, command: 'setvip', allowed: true });
 
             if (!permission) {
-                return await interaction.reply(this.strings.noPermission);
+                return await interaction.reply(strings.noPermission);
             }
 
             const vipsCollection = db.collection('VIPs');
@@ -48,7 +48,7 @@ module.exports = {
 
             await vipsCollection.insertOne(vipData);
             await member.roles.add(role);
-            await interaction.reply(`O usuário ${user.tag} foi definido como VIP com o tipo ${type}.`);
+            await interaction.reply(strings.setvip.success(user.username, role.name));
         } catch (error) {
             console.error('Erro ao executar o comando setvip:', error);
             await interaction.reply('Ocorreu um erro ao executar este comando.');

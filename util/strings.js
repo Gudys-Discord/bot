@@ -18,6 +18,28 @@
  * @property {permissions} permissions - The permissions object
  * @property {string} ownerOnly - The owner only text
  * @property {string} interactionError - The interaction error text
+ * @property {string} interactionReply - The interaction reply text
+ * @property {Object} interactionCreate - The interaction create object
+ * @property {function(string): string} interactionCreate.noCommand - The interaction create no command text
+ * @property {string} interactionCreate.commandFollowUpError - The interaction create command follow up error text
+ * @property {string} interactionCreate.commandFollowUpReply - The interaction create command follow up reply text
+ * @property {Object} interactionCreate.subMenu - The interaction create sub menu object
+ * @property {function(number, boolean): string} interactionCreate.subMenu.success - The interaction create sub menu success text
+ * @property {string} interactionCreate.subMenu.error - The interaction create sub menu error text
+ * @property {Object} guildMemberUpdate - The guild member update object
+ * @property {function(string, string): string} guildMemberUpdate.removedRole - The guild member update removed role text
+ * @property {string} guildMemberUpdate.errorCheckingVipStatus - The guild member update error checking VIP status text
+ * @property {Object} setvip - The set VIP object
+ * @property {string} setvip.description - The set VIP description text
+ * @property {string} setvip.add - The set VIP add text
+ * @property {string} setvip.remove - The set VIP remove text
+ * @property {Object} setvip.options - The set VIP options object
+ * @property {string} setvip.options.member - The set VIP options member text
+ * @property {string} setvip.options.type - The set VIP options type text
+ * @property {function(string, {username: string}): string} setvip.menu - The set VIP menu text
+ * @property {string} setvip.menuPlaceholder - The set VIP menu placeholder text
+ * @property {string} setvip.menuDescription - The set VIP menu description text
+ * @property {Object} setvip.vips - This object contains the VIP roles' names
  */
 
 /** @type {strings} */
@@ -69,6 +91,7 @@ module.exports = {
             holyFck: 'HOLY F*CK',
             sexyStar: 'Sexy Star'
         },
+        success: (user, type) => `O usuário ${user} foi definido como VIP com o tipo ${type}.`
     },    // Event Responses
     interactionCreate: {
         noCommand: (commandName) => `No command matching ${commandName} was found.`,
