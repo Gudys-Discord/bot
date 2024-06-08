@@ -29,21 +29,31 @@ module.exports = {
             } finally {
                 await closeDatabase();
             }
-        /*
-        * SELECT MENU HANDLER
-        */
+        /**
+         * SELECT MENU HANDLER
+         */
         } else if (interaction.isSelectMenu()) {
-            const [action, subcommand, userId] = interaction.customId.split('_');
+            const [prefix, subcommand, userId] = interaction.customId.split('_');
             const selectedCommandName = interaction.values[0];
             const allow = subcommand === 'add';
+
+            if (prefix !== 'select') {
+                console.error(`Unknown prefix: ${prefix}`);
+                return;
+            }
 
             try {
                 await connectToDatabase();
                 const db = getDb();
                 const collection = db.collection('user_permissions');
 
-                const selectedCommand = await interaction.guild.commands.fetch().then(commands => commands.find(cmd => cmd.name === selectedCommandName));
-                console.log(selectedCommand);
+                const commands = await interaction.guild.commands.fetch();
+                const selectedCommand = commands.find(cmd => cmd.name === selectedCommandName);
+
+                if (!selectedCommand) {
+                    console.error(`No command found with the name: ${selectedCommandName}`);
+                    return;
+                }
 
                 await collection.updateOne(
                     { userId: userId, command: selectedCommand.id },

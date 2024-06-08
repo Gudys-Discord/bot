@@ -37,6 +37,6 @@ module.exports = {
                     ]),
             );
 
-        await interaction.reply({ content: 'Please select an option from the menu.', components: [row] });
+        await interaction.reply({ content: `Escolha o comando que você quer ${subcommand === 'add' ? 'permitir' : 'proibir'}.`, components: [row] });
     },
 };
