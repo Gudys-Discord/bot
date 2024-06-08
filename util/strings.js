@@ -67,5 +67,3 @@ module.exports = {
     // Event Responses
     interactionError: 'Houve um erro ao executar este comando!',
 }
-
-export default strings;
