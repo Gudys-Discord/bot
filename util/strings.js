@@ -93,7 +93,7 @@ module.exports = {
             holyFck: 'HOLY F*CK',
             sexyStar: 'Sexy Star'
         },
-        success: (username, roleName) => `O membro ${username} agora é um VIP com o cargo ${roleName}.`,
+        success: (username, roleName) => `O membro ${username} recebeu o VIP ${roleName} por 30 dias!`,
         noVip: 'O membro não é um VIP.',
         removeSuccess: `O membro não é mais um VIP.`,
         removeError: 'Houve um erro ao remover o VIP.',
