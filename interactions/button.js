@@ -9,17 +9,17 @@ module.exports = {
         switch (buttonID) {
             case 'remove_vip':
                 try {
+                    const member = interaction.options.get('membro').member;
                     await connectToDatabase();
                     const db = getDb();
                     const vipsCollection = db.collection('VIPs');
-                    const vip = await vipsCollection.findOne({ userID: interaction.values[0], active: true });
+                    const vip = await vipsCollection.findOne({ userID: member, active: true });
 
                     if (!vip) {
                         await interaction.reply({ content: strings.setvip.noVip, ephemeral: true });
                         return;
                     }
 
-                    const member = interaction.options.get('membro').member;
                     await interaction.guild.roles.fetch();
                     const vipRole = interaction.guild.roles.cache.find(role => role.id === vip.type);
                     if (member && vipRole) {
