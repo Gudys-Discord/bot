@@ -42,13 +42,14 @@ module.exports = {
                 const collection = db.collection('user_permissions');
 
                 const selectedCommand = await interaction.guild.commands.fetch().then(commands => commands.find(cmd => cmd.name === selectedCommandName));
+                console.log(selectedCommand);
 
                 await collection.updateOne(
                     { userId: userId, command: selectedCommand.id },
                     { $set: { allowed: allow } },
                     { upsert: true }
                 );
-                await interaction.update({ content: `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.`, components: [] });
+                await interaction.update({ content: selectedCommand.id ? `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.` : 'Permissão atualizada.', components: [] });
             } catch (error) {
                 console.error(error);
                 await interaction.update({ content: `Houve um erro ao atualizar as permissões.`, components: [] });
