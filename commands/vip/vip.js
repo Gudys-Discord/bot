@@ -62,7 +62,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
-            await i.deferUpdate();
+            // await i.deferUpdate();
             if (i.customId === 'editChannel') {
                 if (!vipDoc.vipChannel) {
                     const newChannel = await interaction.guild.channels.create({
@@ -108,7 +108,7 @@ module.exports = {
                                 .setLabel('Qual o novo nome do canal?')
                                 .setPlaceholder('Digite o novo nome aqui')
                         );
-                    await i.reply({ content: 'Editar Canal', components: [modal] });
+                    await i.reply({ content: 'Canal editado com sucesso!', components: [modal] });
                 }
             } else if (i.customId === 'editRole') {
                 if (!vipDoc.vipRole) {
@@ -125,7 +125,7 @@ module.exports = {
                                 .setLabel('Qual o novo nome do cargo?')
                                 .setPlaceholder('Digite o novo nome aqui')
                         );
-                    await i.reply({ content: 'Editar cargo', components: [modal] });
+                    await i.reply({ content: 'O seu cargo foi editado com sucesso1', components: [modal] });
                 }
             }
         });
