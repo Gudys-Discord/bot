@@ -112,7 +112,7 @@ module.exports = {
                     // Adicionando opções ao formulário
                     const daysToAddInput = new TextInputBuilder()
                         .setCustomId('days_to_add')
-                        .setLabel('Digite a quantidade de dias que você quer adicionar ao VIP.')
+                        .setLabel('Quantos dias você quer adicionar?')
                         .setRequired(true)
                         .setStyle(TextInputStyle.NUMBER)
 
