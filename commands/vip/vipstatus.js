@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder } = require('discord.js');
 const { getDb } = require('../../db');
+const vipManager = require('../../util/vipManager');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -40,12 +41,12 @@ module.exports = {
 
         const editChannelButton = new ButtonBuilder()
             .setCustomId('editChannel')
-            .setLabel('Editar Canal')
+            .setLabel(vipDoc.vipChannel ? 'Editar Canal' : 'Criar Canal')
             .setStyle(2);
 
         const editRoleButton = new ButtonBuilder()
             .setCustomId('editRole')
-            .setLabel('Editar cargo')
+            .setLabel(vipDoc.vipRole ? 'Editar cargo' : 'Criar cargo')
             .setStyle(2);
 
         const actionRow = new ActionRowBuilder()
@@ -60,7 +61,25 @@ module.exports = {
             await i.deferUpdate();
             if (i.customId === 'editChannel') {
                 if (!vipDoc.vipChannel) {
-                    const newChannel = await interaction.guild.channels.create('VIP Channel', { type: 'GUILD_TEXT' });
+                    const newChannel = await interaction.guild.channels.create(`VIP ${targetUser.username}`, {
+                        type: 'GUILD_VOICE',
+                        parent: vipManager.getParentChannel(VIP.name),
+                        permissionOverwrites: [
+                          {
+                            id: interaction.guild.roles.everyone,
+                            deny: ['CONNECT'],
+                          },
+                          {
+                            id: targetUser.id,
+                            allow: ['VIEW_CHANNEL', 'CONNECT', 'MOVE_MEMBERS', 'SPEAK', 'MANAGE_CHANNELS'],
+                          },
+                          {
+                            id: role.id,
+                            allow: ['VIEW_CHANNEL', 'CONNECT', 'SEND_MESSAGES'],
+                          },
+                        ],
+                      });
+                      
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
                     await i.update({ content: 'O seu canal não existia, criei ele para você agora. Você deseja editar o nome dele?' });
                 } else {
