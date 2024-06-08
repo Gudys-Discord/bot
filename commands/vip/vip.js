@@ -4,13 +4,16 @@ const vipManager = require('../../util/vipManager');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('vipstatus')
-        .setDescription('Verifica o status VIP de um usuário, ou o seu próprio status VIP.')
+        .setName('vip')
+        .setDescription('Acesse o seu painel VIP!')
         .addUserOption(option =>
             option.setName('membro')
-                .setDescription('O usuário para verificar o status VIP')
+                .setDescription('Admin: O usuário para verificar o status VIP')
         ),
     async execute(interaction) {
+        if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
+            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
+        } 
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
 
