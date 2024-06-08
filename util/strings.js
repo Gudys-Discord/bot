@@ -102,7 +102,10 @@ module.exports = {
         noVip: 'O membro não é um VIP.',
         removeSuccess: `O membro não é mais um VIP.`,
         removeError: 'Houve um erro ao remover o VIP.',
-        changeExpiration: (time) => `O tempo de expiração do VIP foi alterado para ${time}.`
+        changeExpiration: (time) => `O tempo de expiração do VIP foi alterado para ${time}.`,
+        selectMenu: {
+            noCommandFound: (selectedCommandName) => `Nenhum comando correspondente a ${selectedCommandName} foi encontrado.`
+        }
     },    // Event Responses
     interactionCreate: {
         noCommand: (commandName) => `No command matching ${commandName} was found.`,

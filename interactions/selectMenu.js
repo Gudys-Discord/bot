@@ -21,7 +21,7 @@ module.exports = {
             const selectedCommand = commands.find(cmd => cmd.name === selectedCommandName);
 
             if (!selectedCommand) {
-                console.error(`No command found with the name: ${selectedCommandName}`);
+                console.error(strings.selectMenu.noCommandFound(selectedCommandName));
                 return;
             }
 
