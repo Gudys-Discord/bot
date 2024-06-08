@@ -1,4 +1,4 @@
-const { Events, ModalBuilder } = require('discord.js');
+const { Events, ModalBuilder, TextInputBuilde, TextInputStyle } = require('discord.js');
 const { connectToDatabase, getDb, closeDatabase } = require('../db');
 const strings = require('../util/strings.js');
 
@@ -104,14 +104,20 @@ module.exports = {
                     }
                     break;
                 case 'change_expiry':
+                    // Construindo o formulário
                     const form = new ModalBuilder()
                         .setTitle('Alterar data de expiração do VIP')
                         .setCustomId('days_to_add')
-                        .setPlaceholder('Digite a nova data de expiração')
-                        .setPlaceholder('30')
-                        .setLabel('Dias para adicionar ao VIP')
-                        .setRequired(true);
-                    await interaction.reply({ content: 'Digite a quantidade de dias que você quer adicionar ao VIP.', components: [form] });
+                        .addTextInput('dias', 'Quantos dias você quer adicionar ao VIP?')
+                    // Adicionando opções ao formulário
+                    const daysToAddInput = new TextInputBuilder()
+                        .setName('Dias')
+                        .setDescription('Digite a quantidade de dias que você quer adicionar ao VIP.')
+                        .setRequired(true)
+                        .setStyle(TextInputStyle.NUMBER)
+
+                    form.addComponents(daysToAddInput);
+                    await interaction.showModal(form);
                     break;
             }
         } else if (interaction.isModalSubmit()) {
