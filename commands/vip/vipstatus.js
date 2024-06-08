@@ -63,7 +63,7 @@ module.exports = {
                 if (!vipDoc.vipChannel) {
                     const newChannel = await interaction.guild.channels.create(`VIP ${targetUser.username}`, {
                         type: 'GUILD_VOICE',
-                        parent: vipManager.getParentChannel(console.log('DEBUG VIP NAME:', VIP.name)),
+                        parent: await vipManager.getParentChannel(VIP.name),
                         permissionOverwrites: [
                           {
                             id: interaction.guild.roles.everyone,

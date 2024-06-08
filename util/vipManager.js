@@ -55,7 +55,8 @@ module.exports = {
             parentChannel: '1249120298297589810',
         },
     },
-    getParentChannel: (vipName) => {
+    getParentChannel: async (vipName) => {
+        console.log('DEBUG VIP NAME AGAIN: ', vipName);
         if (this.vipSettings[vipName].tier === 1) {
             return this.tierSettings.one.parentChannel;
         } else if (this.vipSettings[vipName].tier === 2) {
