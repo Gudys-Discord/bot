@@ -1,7 +1,0 @@
-{
-    "editor.fontFamily": "'Monaspace', Consolas, 'Courier New', monospace",
-    "editor.cursorStyle": "line",
-    "files.autoSave": "afterDelay",
-    "files.autoSaveDelay": 2000,
-    "files.autoSaveWhenNoErrors": true
-}
