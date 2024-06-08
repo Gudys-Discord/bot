@@ -56,14 +56,26 @@ module.exports = {
         },
     },
     getParentChannel: async function (vipName) {
-        if (this.vipSettings[vipName].tier === 1) {
-            return this.tierSettings.one.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 2) {
-            return this.tierSettings.two.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 3) {
-            return this.tierSettings.three.parentChannel;
-        } else if (this.vipSettings[vipName].tier === 4) {
-            return this.tierSettings.four.parentChannel;
+        const { vipSettings, tierSettings } = this;
+        console.log('DEBUG VIP NAME: ', vipName);
+        const vip = vipSettings[vipName];
+        if (!vip) {
+            console.error(`No VIP settings found for name: ${vipName}`);
+            return null;
+        }
+        console.log('DEBUG VIP SETTINGS: ', vip);
+        switch (vip.tier) {
+            case 1:
+                return tierSettings.one.parentChannel;
+            case 2:
+                return tierSettings.two.parentChannel;
+            case 3:
+                return tierSettings.three.parentChannel;
+            case 4:
+                return tierSettings.four.parentChannel;
+            default:
+                console.error(`No tier setting found for tier: ${vip.tier}`);
+                return null;
         }
     }
 }
