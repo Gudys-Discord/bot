@@ -70,7 +70,7 @@ module.exports = {
 
                 collector.on('collect', async i => {
                     if (i.customId === 'remove_vip') {
-                        const roleToDelete = guild.roles.cache.find(role => role.id === existingVip.type);
+                        const roleToDelete = guild.roles.cache.find(role => role.id === existingVip.vipRole);
                         const channelToDelete = guild.channels.cache.find(channel => channel.id === existingVip.vipChannel);
                         if (roleToDelete) {
                             await roleToDelete.delete();
