@@ -1,19 +1,17 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, ChannelType } = require('discord.js');
 const { joinVoiceChannel } = require('@discordjs/voice');
 
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('joinvoice')
-		.setDescription('Entra no canal de voz definido.')
-        .addChannelOption(option => 
+    data: new SlashCommandBuilder()
+        .setName('joinvoice')
+        .setDescription('Entra no canal de voz definido.')
+        .addChannelOption(option =>
             option.setName('canal')
                 .setDescription('O canal de voz para entrar.')
-                .setRequired(true)),
-	async execute(interaction) {
+                .setRequired(true)
+                .addChannelTypes([ChannelType.GuildVoice])),
+    async execute(interaction) {
         const channel = interaction.options.getChannel('canal');
-        if (!channel.isVoice()) {
-            return interaction.reply({ content: 'Você precisa selecionar um canal de voz.', ephemeral: true });
-        }
 
         const connection = joinVoiceChannel({
             channelId: channel.id,
@@ -26,5 +24,5 @@ module.exports = {
                 await interaction.reply(`Conectado ao canal de voz ${channel.name}!`);
             }
         });
-	},
+    },
 };
