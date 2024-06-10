@@ -13,7 +13,7 @@ module.exports = {
     async execute(interaction) {
         const channel = interaction.options.getChannel('canal');
 
-        interaction.reply(`Conectando ao canal de voz ${channel.name}...`);
+        await interaction.reply(`Conectando ao canal de voz ${channel.name}...`);
 
         const connection = joinVoiceChannel({
             channelId: channel.id,
