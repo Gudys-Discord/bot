@@ -13,6 +13,8 @@ module.exports = {
     async execute(interaction) {
         const channel = interaction.options.getChannel('canal');
 
+        interaction.reply(`Conectando ao canal de voz ${channel.name}...`);
+
         const connection = joinVoiceChannel({
             channelId: channel.id,
             guildId: channel.guild.id,
@@ -21,7 +23,9 @@ module.exports = {
 
         connection.on('stateChange', async (oldState, newState) => {
             if (newState.status === 'ready') {
-                await interaction.reply(`Conectado ao canal de voz ${channel.name}!`);
+                await interaction.update(`Conectado ao canal de voz ${channel.name}!`);
+            } else if (newState.status === 'failed') {
+                await interaction.update(`Falha ao conectar ao canal de voz ${channel.name}!`);
             }
         });
     },
