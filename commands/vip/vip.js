@@ -16,14 +16,14 @@ module.exports = {
         } 
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
-
+        await i.reply(`Verificando o status VIP de ${targetUser.username}`)
         const db = await getDb();
         const VIPs = db.collection('VIPs');
 
         const vipDoc = await VIPs.findOne({ userID: targetUser.id });
 
         if (!vipDoc) {
-            return interaction.reply(`Você não é VIP, ${targetUser.username}.`);
+            return interaction.update(`Você não é VIP, ${targetUser.username}.`);
         }
 
         const VIP = interaction.guild.roles.cache.find(role => role.id === vipDoc.type);
@@ -55,7 +55,7 @@ module.exports = {
         const actionRow = new ActionRowBuilder()
             .addComponents(editChannelButton, editRoleButton);
 
-        await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
+        await interaction.update({ embeds: [vipEmbed], components: [actionRow] });
 
         const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
         
