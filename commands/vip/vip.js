@@ -12,8 +12,8 @@ module.exports = {
         ),
     async execute(interaction) {
         if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
-            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
-        } 
+            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
+        }
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
         const db = await getDb();
@@ -57,23 +57,18 @@ module.exports = {
         await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
 
         const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
-        
 
-        collector.on('collect', async i => {
-            if (!i.isButton()) return;
-            // await i.deferUpdate();
-            if (i.customId === 'createChannel') {
-                await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
-                if (!vipDoc.vipChannel) {
-                    const newChannel = await interaction.guild.channels.create({
-                        name: `VIP ${targetUser.username}`,
-                        type: ChannelType.GuildVoice,
-                        parent: await vipManager.getParentChannel(VIP.name),
-                        permissionOverwrites: [
-                          {
+        async function createChannel(interaction, vipDoc, targetUser, VIP, VIPs) {
+            if (!vipDoc.vipChannel) {
+                const newChannel = await interaction.guild.channels.create({
+                    name: `VIP ${targetUser.username}`,
+                    type: ChannelType.GuildVoice,
+                    parent: await vipManager.getParentChannel(VIP.name),
+                    permissionOverwrites: [
+                        {
                             id: interaction.guild.roles.everyone,
                             deny: [PermissionsBitField.Flags.Connect],
-                          },
+                        },
                         {
                             id: targetUser.id,
                             allow: [
@@ -85,58 +80,81 @@ module.exports = {
                                 PermissionsBitField.Flags.UseExternalSounds
                             ],
                         },
-                          {
+                        {
                             id: VIP.id,
                             allow: [
                                 PermissionsBitField.Flags.ViewChannel,
                                 PermissionsBitField.Flags.Connect,
                                 PermissionsBitField.Flags.SendMessages,
                             ],
-                          },
-                        ],
-                        reason: `Canal VIP criado para ${targetUser.username}`,
-                      });
-                      
-                    await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
-                } else if (i.customId === 'editChannel') {
-                    await i.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
+                        },
+                    ],
+                    reason: `Canal VIP criado para ${targetUser.username}`,
+                });
 
-                    const filter = m.author.id === interaction.user.id;
-                    const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+                await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
+            } else if (interaction.customId === 'editChannel') {
+                await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
 
-                    collector.on('collect', async m => {
-                        const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
-                        await channel.setName(m.content);
-                        await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
-                        m.delete();
-                    });
-                }
-            } else if (i.customId === 'editRole') {
-                if (!vipDoc.vipRole) {
-                    const newRole = await interaction.guild.roles.create({ name: 'VIP Role' });
-                    await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipRole: newRole.id } });
-                    await i.update({ content: 'O seu cargo não existia, criei ele para você agora. Você deseja editar o nome dele?' });
-                } else {
+                const filter = m.author.id === interaction.user.id;
+                const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
 
-                    const modal = new ModalBuilder()
-                        .setTitle('Editar cargo')
-                        .addComponents(
-                            new TextInputBuilder()
-                                .setCustomId('newRoleName')
-                                .setLabel('Qual o novo nome do cargo?')
-                                .setPlaceholder('Digite o novo nome aqui')
-                        );
-                    await i.reply({ content: 'O seu cargo foi editado com sucesso1', components: [modal] });
-                }
+                collector.on('collect', async m => {
+                    const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
+                    await channel.setName(m.content);
+                    await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
+                    m.delete();
+                });
+            }
+        }
+
+        async function createRole(interaction, vipDoc, VIPs) {
+            if (!vipDoc.vipRole) {
+                const newRole = await interaction.guild.roles.create({
+                    name: `VIP ${targetUser.username}`,
+                    color: VIPColor,
+                    permissions: [],
+                    reason: `Cargo VIP criado para ${targetUser.username}`,
+                });
+                await interaction.reply({ content: `Cargo VIP criado com sucesso!`, ephemeral: true });
+                await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipRole: newRole.id } });
+            } else if (interaction.customId === 'editRole') {
+                await interaction.reply({ content: 'Diga o novo nome do teu cargo VIP', ephemeral: false });
+
+                const filter = m.author.id === interaction.user.id;
+                const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+
+                collector.on('collect', async m => {
+                    const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
+                    await role.setName(m.content);
+                    await m.reply(`O nome do seu cargo VIP foi alterado para ${m.content}`);
+                    m.delete();
+                });
+            }
+
+        }
+
+        collector.on('collect', async i => {
+            if (!i.isButton()) return;
+
+            switch (i.customId) {
+                case 'createChannel' || 'editChannel':
+                    await createChannel(i, vipDoc, targetUser, VIP, VIPs);
+                    break;
+                case 'createRole' || 'editRole':
+                    await createRole(i, vipDoc, VIPs);
+                    break;
             }
         });
-        
+
+
+
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
         });
 
         const textInputCollector = interaction.channel.createMessageComponentCollector({ time: 15000 });
-        
+
         textInputCollector.on('collect', async i => {
             if (i.customId === 'newChannelName') {
                 const newChannelName = i.values[0];
@@ -149,6 +167,6 @@ module.exports = {
                 await role.setName(newRoleName);
                 await i.update({ content: `O nome do cargo foi alterado para ${newRoleName}` });
             }
-        });        
+        });
     },
 };
