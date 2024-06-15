@@ -100,15 +100,16 @@ module.exports = {
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
                     if (!vipDoc.vipChannel) await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
                 } else {
-                    const modal = new ModalBuilder()
-                        .setTitle('Editar Canal')
-                        .addComponents(
-                            new TextInputBuilder()
-                                .setCustomId('newChannelName')
-                                .setLabel('Qual o novo nome do canal?')
-                                .setPlaceholder('Digite o novo nome aqui')
-                        );
-                    await i.reply({ content: 'Canal editado com sucesso!', components: [modal] });
+                    await i.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
+
+                    const filter = m.author.id === interaction.user.id;
+                    const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+
+                    collector.on('collect', async m => {
+                        const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
+                        await channel.setName(m.content);
+                        await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
+                    });
                 }
             } else if (i.customId === 'editRole') {
                 if (!vipDoc.vipRole) {
