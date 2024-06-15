@@ -11,9 +11,8 @@ module.exports = {
                 .setDescription('Admin: O usuário para verificar o status VIP')
         ),
     async execute(interaction) {
-        interaction.deferReply();
         if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
-            return interaction.update({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
+            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
         } 
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
@@ -23,7 +22,7 @@ module.exports = {
         const vipDoc = await VIPs.findOne({ userID: targetUser.id });
 
         if (!vipDoc) {
-            return interaction.update(`Você não é VIP, ${targetUser.username}.`);
+            return interaction.reply(`Você não é VIP, ${targetUser.username}.`);
         }
 
         const VIP = interaction.guild.roles.cache.find(role => role.id === vipDoc.type);
@@ -55,14 +54,14 @@ module.exports = {
         const actionRow = new ActionRowBuilder()
             .addComponents(editChannelButton, editRoleButton);
 
-        await interaction.update({ embeds: [vipEmbed], components: [actionRow] });
+        await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
 
         const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
         
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
-            await i.deferUpdate();
+            // await i.deferUpdate();
             if (i.customId === 'createChannel') {
                 await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
                 if (!vipDoc.vipChannel) {
