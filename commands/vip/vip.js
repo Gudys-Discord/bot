@@ -140,12 +140,15 @@ module.exports = {
         collector.on('collect', async i => {
             if (!i.isButton()) return;
             switch (i.customId) {
-                case 'createChannel' || 'editChannel':
-                    console.log(i.customId); 
+                case 'createChannel':
                     await createChannel(i, vipDoc, targetUser, VIP, VIPs);
                     break;
-                case 'createRole' || 'editRole':
-                    console.log(i.customId);
+                case 'editChannel':
+                    await createChannel(i, vipDoc, targetUser, VIP, VIPs);
+                case 'createRole':
+                    await createRole(i, vipDoc, VIPs);
+                    break;
+                case 'editRole':
                     await createRole(i, vipDoc, VIPs);
                     break;
             }
