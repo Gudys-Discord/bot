@@ -139,7 +139,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
-
+            console.log(i.customId)
             switch (i.customId) {
                 case 'createChannel' || 'editChannel':
                     await createChannel(i, vipDoc, targetUser, VIP, VIPs);
