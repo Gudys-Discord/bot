@@ -93,6 +93,7 @@ module.exports = {
                 });
 
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
+                await interaction.reply({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
             } else if (interaction.customId === 'editChannel') {
                 await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
 
@@ -146,8 +147,6 @@ module.exports = {
                     break;
             }
         });
-
-
 
         collector.on('end', collected => {
             console.log(`Collected ${collected.size} items`);
