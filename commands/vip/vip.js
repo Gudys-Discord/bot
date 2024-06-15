@@ -43,12 +43,12 @@ module.exports = {
         }
 
         const editChannelButton = new ButtonBuilder()
-            .setCustomId('editChannel')
+            .setCustomId(vipDoc.vipChannel ? 'editChannel' : 'createChannel')
             .setLabel(vipDoc.vipChannel ? 'Editar Canal' : 'Criar Canal')
             .setStyle(2);
 
         const editRoleButton = new ButtonBuilder()
-            .setCustomId('editRole')
+            .setCustomId(vipDoc.vipRole ? 'editRole' : 'createRole')
             .setLabel(vipDoc.vipRole ? 'Editar cargo' : 'Criar cargo')
             .setStyle(2);
 
@@ -63,7 +63,8 @@ module.exports = {
         collector.on('collect', async i => {
             if (!i.isButton()) return;
             // await i.deferUpdate();
-            if (i.customId === 'editChannel') {
+            if (i.customId === 'createChannel') {
+                await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
                 if (!vipDoc.vipChannel) {
                     const newChannel = await interaction.guild.channels.create({
                         name: `VIP ${targetUser.username}`,
@@ -98,8 +99,7 @@ module.exports = {
                       });
                       
                     await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
-                    if (!vipDoc.vipChannel) await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
-                } else {
+                } else if (i.customId === 'editChannel') {
                     await i.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
 
                     const filter = m.author.id === interaction.user.id;
@@ -109,6 +109,7 @@ module.exports = {
                         const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                         await channel.setName(m.content);
                         await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
+                        m.delete();
                     });
                 }
             } else if (i.customId === 'editRole') {
