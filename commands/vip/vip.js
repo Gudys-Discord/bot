@@ -117,10 +117,12 @@ module.exports = {
                     permissions: [],
                     reason: `Cargo VIP criado para ${targetUser.username}`,
                 });
+                const role = interaction.guild.roles.cache.get(newRole.id);
+                await interaction.member.roles.add(role);
                 await interaction.reply({ content: `Cargo VIP criado com sucesso!`, ephemeral: true });
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipRole: newRole.id } });
             } else if (interaction.customId === 'editRole') {
-                await interaction.reply({ content: 'Diga o novo nome do teu cargo VIP', ephemeral: false });
+                await interaction.reply({ content: 'Diga o novo nome do teu cargo VIP.', ephemeral: false });
 
                 const filter = m.author.id === interaction.user.id;
                 const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
