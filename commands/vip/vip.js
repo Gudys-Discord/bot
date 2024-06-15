@@ -11,12 +11,12 @@ module.exports = {
                 .setDescription('Admin: O usuário para verificar o status VIP')
         ),
     async execute(interaction) {
+        interaction.deferReply();
         if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
-            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
+            return interaction.update({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true});
         } 
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
-        await i.reply(`Verificando o status VIP de ${targetUser.username}`)
         const db = await getDb();
         const VIPs = db.collection('VIPs');
 
@@ -62,7 +62,7 @@ module.exports = {
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
-            // await i.deferUpdate();
+            await i.deferUpdate();
             if (i.customId === 'createChannel') {
                 await i.update({ content: 'O seu canal não existia, criei ele para você agora.' });
                 if (!vipDoc.vipChannel) {
