@@ -65,9 +65,11 @@ module.exports = {
             .setStyle(2);
 
         const actionRow = new ActionRowBuilder()
-        if(targetUser) {
+        if(!interaction.options.getUser('membro')) {
             actionRow.addComponent(changeDurationButton, removeVIPButton)
-        } else actionRow.addComponent(editChannelButton, editRoleButton);
+        } else if (targetUser){
+            actionRow.addComponent(editChannelButton, editRoleButton);
+        }
 
 
         await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
