@@ -64,11 +64,11 @@ module.exports = {
             .setLabel(vipDoc.vipRole ? 'Editar cargo' : 'Criar cargo')
             .setStyle(2);
 
-        const actionRow = new ActionRowBuilder()
-        if(!interaction.options.getUser('membro')) {
-            actionRow.addComponent(changeDurationButton, removeVIPButton)
-        } else if (targetUser){
-            actionRow.addComponent(editChannelButton, editRoleButton);
+        const actionRow = new ActionRowBuilder();
+        if (!interaction.options.getUser('membro')) {
+            actionRow.addComponents(changeDurationButton, removeVIPButton);
+        } else if (targetUser) {
+            actionRow.addComponents(editChannelButton, editRoleButton);
         }
 
 
