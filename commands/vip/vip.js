@@ -176,10 +176,7 @@ module.exports = {
                     const filter = m => m.author.id === interaction.user.id;
                     const messageCollector = interaction.channel.createMessageCollector({ filter, time: 15000 });
                     messageCollector.on('collect', async m => {
-                        console.log(`Content ==========> `, m.content);
-                        const days = console.log(parseInt(m.content));
-                        console.log(isNaN(days));
-                        if (isNaN(days)) {
+                        if (!isNaN(days)) {
                             await m.reply({ content: 'Por favor, digite um número válido.', ephemeral: true });
                         } else {
                             await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: days * 86400000 } });
