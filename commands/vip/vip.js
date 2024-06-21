@@ -44,6 +44,16 @@ module.exports = {
             vipEmbed.addFields({ name: 'VIP Admin', value: 'Sim', inline: true });
         }
 
+        const changeDurationButton = new ButtonBuilder()
+            .setCustomId('changeDuration')
+            .setLabel('Alterar duração')
+            .setStyle(2);
+
+        const removeVIPButton = new ButtonBuilder()
+            .setCustomId('removeVIP')
+            .setLabel('Remover VIP')
+            .setStyle(4);
+
         const editChannelButton = new ButtonBuilder()
             .setCustomId(vipDoc.vipChannel ? 'editChannel' : 'createChannel')
             .setLabel(vipDoc.vipChannel ? 'Editar Canal' : 'Criar Canal')
@@ -55,7 +65,10 @@ module.exports = {
             .setStyle(2);
 
         const actionRow = new ActionRowBuilder()
-            .addComponents(editChannelButton, editRoleButton);
+        if(targetUser) {
+            actionRow.addComponent(changeDurationButton, removeVIPButton)
+        } else actionRow.addComponent(editChannelButton, editRoleButton);
+
 
         await interaction.reply({ embeds: [vipEmbed], components: [actionRow] });
 
