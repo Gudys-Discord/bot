@@ -47,12 +47,14 @@ module.exports = {
         const changeDurationButton = new ButtonBuilder()
             .setCustomId('changeDuration')
             .setLabel('Alterar duração')
-            .setStyle(2);
+            .setStyle(2)
+            .setEmoji('⏰');
 
         const removeVIPButton = new ButtonBuilder()
             .setCustomId('removeVIP')
             .setLabel('Remover VIP')
-            .setStyle(4);
+            .setStyle(4)
+            .setEmoji('🚫');
 
         const editChannelButton = new ButtonBuilder()
             .setCustomId(vipDoc.vipChannel ? 'editChannel' : 'createChannel')
