@@ -244,6 +244,7 @@ module.exports = {
                     await createRole(i, vipDoc, VIPs);
                     break;
                 case 'changeDuration':
+                    await i.deferUpdate();
                     await changeDuration();
                     break;
                 case 'removeVIP':
