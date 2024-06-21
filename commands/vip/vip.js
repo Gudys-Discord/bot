@@ -11,9 +11,9 @@ module.exports = {
                 .setDescription('Admin: O usuário para verificar o status VIP')
         ),
     async execute(interaction) {
-        if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
-            return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
-        }
+        // if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
+           // return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
+        // }
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
         const db = await getDb();
