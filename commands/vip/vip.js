@@ -22,6 +22,9 @@ module.exports = {
         const vipDoc = await VIPs.findOne({ userID: targetUser.id });
 
         if (!vipDoc) {
+            if (targetUser) {
+                return interaction.reply(`O usuário ${targetUser.username} não é VIP.`);
+            }
             return interaction.reply(`Você não é VIP, ${targetUser.username}.`);
         }
 
