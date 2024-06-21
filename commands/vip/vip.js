@@ -180,7 +180,19 @@ module.exports = {
                         if (isNaN(days)) {
                             await m.reply({ content: 'Por favor, digite um número válido.', ephemeral: true });
                         } else {
-                            await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: days * 86400000 } });
+                            await VIPs.updateOne({ userID: targetUser.id },
+                                [{
+                                    $set: {
+                                        expirationDate: {
+                                            $dateAdd: {
+                                                startDate: "$expirationDate",
+                                                unit: "day",
+                                                amount: days
+                                            }
+                                        }
+                                    }
+                                }]
+                            );
                             await m.reply({ content: `Foram adicionados ${days} dias ao VIP de <@${targetUser.id}>!`, ephemeral: true });
                         }
                         messageCollector.stop();
@@ -194,7 +206,20 @@ module.exports = {
                         if (isNaN(days)) {
                             await m.reply({ content: 'Por favor, digite um número válido.', ephemeral: true });
                         } else {
-                            await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: -days * 86400000 } });
+                            await VIPs.updateOne(
+                                { userID: targetUser.id },
+                                [{
+                                    $set: {
+                                        expirationDate: {
+                                            $dateAdd: {
+                                                startDate: "$expirationDate",
+                                                unit: "day",
+                                                amount: -days
+                                            }
+                                        }
+                                    }
+                                }]
+                            );
                             await m.reply({ content: `Foram removidos ${days} dias do VIP de <@${targetUser.id}>!`, ephemeral: true });
                         }
                         messageCollector.stop();
