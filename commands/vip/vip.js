@@ -172,31 +172,37 @@ module.exports = {
             const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
             collector.on('collect', async i => {
                 if (i.customId === 'addDays') {
-                    await i.update({ content: `Diga quantos dias você quer adicionar ao VIP` });
+                    await i.update({ content: `Diga quantos dias você quer adicionar ao VIP`, components: [] });
                     const filter = m => m.author.id === interaction.user.id;
-                    const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
-                    collector.on('collect', async m => {
+                    const messageCollector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+                    messageCollector.on('collect', async m => {
                         const days = parseInt(m.content);
-                        if (isNaN(days)) return m.reply('Por favor, digite um número válido.');
-                        await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: days * 86400000 } });
-                        await m.reply({ content: `Foram adicionados ${days} dias ao VIP de <@${targetUser.id}>!`, ephemeral: true });
-                        m.delete();
+                        if (isNaN(days)) {
+                            await m.reply({ content: 'Por favor, digite um número válido.', ephemeral: true });
+                        } else {
+                            await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: days * 86400000 } });
+                            await m.reply({ content: `Foram adicionados ${days} dias ao VIP de <@${targetUser.id}>!`, ephemeral: true });
+                        }
+                        messageCollector.stop();
                     });
                 } else if (i.customId === 'removeDays') {
-                    await i.update({ content: `Diga quantos dias você quer remover do VIP` });
+                    await i.update({ content: `Diga quantos dias você quer remover do VIP`, components: [] });
                     const filter = m => m.author.id === interaction.user.id;
-                    const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
-                    collector.on('collect', async m => {
+                    const messageCollector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+                    messageCollector.on('collect', async m => {
                         const days = parseInt(m.content);
-                        if (isNaN(days)) return m.reply('Por favor, digite um número válido.');
-                        await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: -days * 86400000 } });
-                        await m.reply({ content: `Foram removidos ${days} dias do VIP de <@${targetUser.id}>!`, ephemeral: true });
-                        m.delete();
+                        if (isNaN(days)) {
+                            await m.reply({ content: 'Por favor, digite um número válido.', ephemeral: true });
+                        } else {
+                            await VIPs.updateOne({ userID: targetUser.id }, { $inc: { expirationDate: -days * 86400000 } });
+                            await m.reply({ content: `Foram removidos ${days} dias do VIP de <@${targetUser.id}>!`, ephemeral: true });
+                        }
+                        messageCollector.stop();
                     });
                 }
             });
-
         }
+
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
