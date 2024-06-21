@@ -169,7 +169,7 @@ module.exports = {
             const actionRow = new ActionRowBuilder().addComponents(addButton, removeButton);
             await interaction.channel.send({ content: `Você quer adicionar ou remover dias?`, components: [actionRow], ephemeral: true });
 
-            const collector = interaction.channel.createMessageComponentCollector({ time: 15000 });
+            const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
             collector.on('collect', async i => {
                 if (i.customId === 'addDays') {
                     await i.update({ content: `Diga quantos dias você quer adicionar ao VIP` });
