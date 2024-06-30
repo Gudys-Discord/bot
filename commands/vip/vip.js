@@ -134,6 +134,13 @@ module.exports = {
                 await m.reply(`O nome do teu canal VIP foi alterado para ${newName}`);
                 m.delete();
             });
+
+            collector.on('end', collected => {
+                if (collected.size === 0) {
+                    interaction.followUp({ content: 'Tempo esgotado. Por favor, tente novamente.', ephemeral: true });
+                }
+            });
+            console.log('VIP channel name has been edited.');
         }
         
         
