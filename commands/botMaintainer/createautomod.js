@@ -3,7 +3,6 @@ const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('createautomod')
-        .setDefaultPermission(PermissionsBitField.Flags.Administrator)
         .setDescription('Cria um sistema de automoderação')
         .addSubcommand(command => command.setName('flagged-words').setDescription('Adiciona palavras proibidas ao sistema de automoderação'))
         .addSubcommand(command => command.setName('spam-messages').setDescription('Adiciona um sistema de detecção de spam de mensagens'))
