@@ -127,6 +127,7 @@ module.exports = {
             const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 15_000 });
         
             collector.on('collect', async m => {
+                collector.stop();
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                 await channel.setName(m.content);
                 await m.reply(`O nome do teu canal VIP foi alterado para ${m.content}`);
