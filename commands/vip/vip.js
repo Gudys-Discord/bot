@@ -124,25 +124,17 @@ module.exports = {
             await interaction.reply({ content: 'Diga o novo nome do teu canal VIP.', ephemeral: false });
         
             const filter = (message) => message.author.id === interaction.user.id;
-            const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 10_000 });
+            const collector = interaction.channel.createMessageCollector({ filter, time: 10_000 });
         
             collector.on('collect', async m => {
-                collector.stop();
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                 const newName = m.content.length > 25 ? m.content.slice(0, 25) + "..." : m.content;
                 await channel.setName(newName);
                 await m.reply(`O nome do teu canal VIP foi alterado para ${newName}`);
                 m.delete();
-            });
 
-            collector.on('end', collected => {
-                if (collected.size === 0) {
-                    interaction.followUp({ content: 'Tempo esgotado. Por favor, tente novamente.', ephemeral: true });
-                }
+                collector.stop();
             });
-            console.log('VIP channel name has been edited.');
-        }
-        
         
 
         async function createRole(interaction, vipDoc, VIPs) {
