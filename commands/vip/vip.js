@@ -161,7 +161,7 @@ module.exports = {
             const filter = (message) => message.author.id === interaction.user.id;
             const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 10_000 });
         
-            collector.on('collect', async m => {
+            collector.once('collect', async m => {
                 collector.stop();
                 const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
                 const newName = m.content.length > 15 ? m.content.slice(0, 15) + "..." : m.content;
@@ -187,7 +187,7 @@ module.exports = {
             await interaction.channel.send({ content: `Você quer adicionar ou remover dias?`, components: [actionRow], ephemeral: true });
 
             const collector = interaction.channel.createMessageComponentCollector({ time: 100000 });
-            collector.on('collect', async i => {
+            collector.once('collect', async i => {
                 if (i.customId === 'addDays') {
                     await i.update({ content: `Diga quantos dias você quer adicionar ao VIP`, components: [] });
                     const filter = m => m.author.id === interaction.user.id;
