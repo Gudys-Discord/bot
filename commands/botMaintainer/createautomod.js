@@ -1,12 +1,11 @@
-const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField, AutoModerationRuleTriggerType, AutoModerationRuleEventType, AutoModerationActionType } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('createautomod')
         .setDescription('Cria um sistema de automoderação'),
-
+    
     async execute(interaction) {
-        // This command creates an automod rule in all 9 servers that are in the devServer variable
         const devServers = [
             '1256971261310013471', '1256971183514062899',
             '1256971018267005010', '737173603107340310',
@@ -15,27 +14,28 @@ module.exports = {
             '1240721047347789884', '1240721072890970275'
         ];
 
-        const automodRules = [
-            { type: 'flagged-words', count: 2 },
-            { type: 'spam-messages', count: 2 },
-            { type: 'spam-mentions', count: 2 },
-            { type: 'keywords', count: 3 }
-        ];
-
         interaction.reply({ content: 'Criando regras de automoderação...', ephemeral: true });
 
         for (const guildId of devServers) {
             const guild = await interaction.client.guilds.fetch(guildId);
-            const channel = guild?.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'));
 
-            if (channel) {
-                for (const rule of automodRules) {
-                    for (let i = 0; i < rule.count; i++) {
-                        console.log(`Creating automod rule: ${rule.type}`);
-                        await channel.send({ content: `Automod rule created: ${rule.type}` });
-                        console.log(`Automod rule created: ${rule.type}`);
+            if (guild) {
+                try {
+                    for (let i = 0; i < 9; i++) {
+                        await guild.autoModerationRules.create({
+                            name: `AutoMod Rule ${i + 1}`,
+                            eventType: AutoModerationRuleEventType.MessageSend,
+                            triggerType: AutoModerationRuleTriggerType.Keyword,
+                            triggerMetadata: { keywordFilter: ['badword1', 'badword2'] },
+                            actions: [{ type: AutoModerationActionType.BlockMessage }]
+                        });
+                        console.log(`AutoMod Rule ${i + 1} created in guild ${guildId}`);
                     }
+                } catch (error) {
+                    console.error(`Failed to create AutoMod rule in guild ${guildId}:`, error);
                 }
+            } else {
+                console.log(`Guild ${guildId} not found`);
             }
         }
 
