@@ -242,6 +242,7 @@ module.exports = {
             if (role) {
                 await role.delete();
             }
+            await interaction.update({ components: [] });
             await interaction.followUp({ content: `O VIP de <@${targetUser.id}> foi removido com sucesso!`, ephemeral: true });
         }
 
