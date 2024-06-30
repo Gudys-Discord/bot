@@ -230,6 +230,19 @@ module.exports = {
             });
         }
 
+        async function removeVIP(interaction, targetUser, VIPs) {
+            await VIPs.deleteOne({ userID: targetUser.id });
+            const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
+            const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
+            if (channel) {
+                await channel.delete();
+            }
+            if (role) {
+                await role.delete();
+            }
+            await interaction.reply({ content: `O VIP de <@${targetUser.id}> foi removido com sucesso!`, ephemeral: true });
+        }
+
 
         collector.on('collect', async i => {
             if (!i.isButton()) return;
@@ -250,7 +263,7 @@ module.exports = {
                     await changeDuration();
                     break;
                 case 'removeVIP':
-                    await removeVIP();
+                    await removeVIP(interaction, targetUser, VIPs);
                     break;
             }
         });
