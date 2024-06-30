@@ -172,6 +172,7 @@ module.exports = {
 
                 collector.stop();
             });
+            return;
         }
 
         async function changeDuration() {
