@@ -10,6 +10,7 @@ module.exports = {
             option.setName('membro')
                 .setDescription('Admin: O usuário para verificar o status VIP')
         ),
+
     async execute(interaction) {
         // if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
         // return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
@@ -122,8 +123,8 @@ module.exports = {
         async function editChannel(interaction, vipDoc, targetUser, VIP, VIPs) {
             await interaction.reply({ content: 'Diga o novo nome do teu canal VIP.', ephemeral: false });
 
-            const filter = m.author.id === interaction.user.id;
-            const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+            const collector = interaction.channel.createMessageCollector({
+                filter: (message) => message.channelId === interaction.channelId, time: 15000 });
 
             collector.on('collect', async m => {
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
