@@ -230,7 +230,7 @@ module.exports = {
             });
         }
 
-        async function removeVIP(interaction, targetUser, VIPs) {
+        async function removeVIP(interaction, targetUser, VIPs, vipDoc) {
             await VIPs.deleteOne({ userID: targetUser.id });
             const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
             const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
@@ -263,7 +263,7 @@ module.exports = {
                     await changeDuration();
                     break;
                 case 'removeVIP':
-                    await removeVIP(interaction, targetUser, VIPs);
+                    await removeVIP(interaction, targetUser, VIPs, vipDoc);
                     break;
             }
         });
