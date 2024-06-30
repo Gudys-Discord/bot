@@ -113,7 +113,8 @@ module.exports = {
                 });
 
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
-                editChannelButton.setLabel('Editar Canal').setCustomId('editChannel');
+                await editChannelButton.setLabel('Editar Canal').setCustomId('editChannel');
+                console.log(editChannelButton.customId);
                 await interaction.update({ components: [actionRow] });
                 await interaction.reply({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
             } else if (interaction.customId === 'editChannel') {
