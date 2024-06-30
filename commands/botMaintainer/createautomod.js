@@ -4,12 +4,14 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('createautomod')
         .setDescription('Cria um sistema de automoderação'),
-
+    
     async execute(interaction) {
         const devServers = [
-            '1256983981660835881',
-            '1256983936836440104',
-            '1256984110191087758'
+            '1256971261310013471', '1256971183514062899',
+            '1256971018267005010', '737173603107340310',
+            '1240514457298276402', '1240720918314221679',
+            '1240720983908683828', '1240720956461158533',
+            '1240721047347789884', '1240721072890970275'
         ];
 
         interaction.reply({ content: 'Criando regras de automoderação...', ephemeral: true });
