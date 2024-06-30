@@ -117,20 +117,20 @@ module.exports = {
                 await interaction.followUp({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
                 return;
             }
+        }
 
-            if (interaction.customId === 'editChannel') {
-                await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
+        async function editChannel(interaction, vipDoc, targetUser, VIP, VIPs) {
+            await interaction.reply({ content: 'Diga o novo nome do teu canal VIP.', ephemeral: false });
 
-                const filter = (m) => m.author.id === interaction.user.id;
-                const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
+            const filter = m.author.id === interaction.user.id;
+            const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
 
-                collector.on('collect', async (m) => {
-                    const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
-                    await channel.setName(m.content);
-                    await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
-                    m.delete();
-                });
-            }
+            collector.on('collect', async m => {
+                const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
+                await channel.setName(m.content);
+                await m.reply(`O nome do teu canal VIP foi alterado para ${m.content}`);
+                m.delete();
+            });
         }
 
         async function createRole(interaction, vipDoc, VIPs) {
@@ -252,11 +252,11 @@ module.exports = {
             switch (i.customId) {
                 case 'createChannel':
                     editChannelButton.setLabel('Editar Canal');
-                    editChannelButton.setCustomId('editChannel');
+                     console.log(editChannelButton.setCustomId('editChannel'));
                     await createChannel(i, vipDoc, targetUser, VIP, VIPs);
                     break;
                 case 'editChannel':
-                    await createChannel(i, vipDoc, targetUser, VIP, VIPs);
+                    await editChannel(i, vipDoc, targetUser, VIP, VIPs);
                 case 'createRole':
                     await createRole(i, vipDoc, VIPs);
                     break;
