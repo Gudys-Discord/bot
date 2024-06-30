@@ -28,7 +28,7 @@ module.exports = {
 
         for (const guildId of devServers) {
             const guild = await interaction.client.guilds.fetch(guildId);
-            const channel = guild.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'));
+            const channel = guild?.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'));
 
             if (channel) {
                 for (const rule of automodRules) {
