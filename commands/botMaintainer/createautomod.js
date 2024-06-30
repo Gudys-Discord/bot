@@ -3,11 +3,7 @@ const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('createautomod')
-        .setDescription('Cria um sistema de automoderação')
-        .addSubcommand(command => command.setName('flagged-words').setDescription('Adiciona palavras proibidas ao sistema de automoderação'))
-        .addSubcommand(command => command.setName('spam-messages').setDescription('Adiciona um sistema de detecção de spam de mensagens'))
-        .addSubcommand(command => command.setName('spam-mentions').setDescription('Adiciona um sistema de detecção de spam de menções'))
-        .addSubcommand(command => command.setName('keywords').setDescription('Adiciona palavras-chave ao sistema de automoderação')),
+        .setDescription('Cria um sistema de automoderação'),
 
     async execute(interaction) {
         // This command creates an automod rule in all 9 servers that are in the devServer variable
@@ -26,6 +22,8 @@ module.exports = {
             { type: 'keywords', count: 3 }
         ];
 
+        interaction.reply({ content: 'Criando regras de automoderação...', ephemeral: true });
+
         for (const guildId of devServers) {
             const guild = await interaction.client.guilds.fetch(guildId);
             const channel = guild?.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(guild.me).has('SEND_MESSAGES'));
@@ -33,10 +31,14 @@ module.exports = {
             if (channel) {
                 for (const rule of automodRules) {
                     for (let i = 0; i < rule.count; i++) {
+                        console.log(`Creating automod rule: ${rule.type}`);
                         await channel.send({ content: `Automod rule created: ${rule.type}` });
+                        console.log(`Automod rule created: ${rule.type}`);
                     }
                 }
             }
         }
+
+        interaction.editReply({ content: 'Regras de automoderação criadas com sucesso!', ephemeral: true });
     }
 };
