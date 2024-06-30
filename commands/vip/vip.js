@@ -123,18 +123,17 @@ module.exports = {
         async function editChannel(interaction, vipDoc) {
             await interaction.reply({ content: 'Diga o novo nome do teu canal VIP.', ephemeral: false });
         
-            const collector = interaction.channel.createMessageCollector({
-                filter: (message) => message.channelId === interaction.channelId && message.author.id === interaction.user.id,
-                time: 15_000
-            });
+            const filter = (message) => message.author.id === interaction.user.id;
+            const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 15_000 });
         
-            collector.on('collect', async message => {
+            collector.on('collect', async m => {
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
-                await channel.setName(message.content);
-                await message.reply(`O nome do teu canal VIP foi alterado para ${message.content}`);
-                message.delete();
+                await channel.setName(m.content);
+                await m.reply(`O nome do teu canal VIP foi alterado para ${m.content}`);
+                m.delete();
             });
         }
+        
         
 
         async function createRole(interaction, vipDoc, VIPs) {
