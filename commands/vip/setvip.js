@@ -10,7 +10,7 @@ module.exports = {
         .addStringOption(option => option.setName('type').setDescription('Selecione o VIP').setRequired(true)
             .addChoices([
                 { name: strings.setvip.vips.yeezyGang, value: '1248973408239226951' },
-                { name: strings.setvip.vips.rollsRoyce, value: '1248973408239226951' },
+                { name: strings.setvip.vips.rollsRoyce, value: '1248973430791864330' },
                 { name: strings.setvip.vips.ghostGang, value: '1248973445753077791' },
                 { name: strings.setvip.vips.freestyle, value: '1248973459883560970' },
                 { name: strings.setvip.vips.eightLife, value: '1248973481987543083' },
