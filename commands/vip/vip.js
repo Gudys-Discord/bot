@@ -12,7 +12,7 @@ module.exports = {
         ),
     async execute(interaction) {
         // if (!interaction.member.permissions.has('ADMINISTRATOR') && targetUser) {
-           // return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
+        // return interaction.reply({ content: 'Você não tem permissão para ver o painel VIP de outros membros.', ephemeral: true });
         // }
         let targetUser = interaction.options.getUser('membro');
         if (!targetUser) targetUser = interaction.member.user
@@ -116,8 +116,11 @@ module.exports = {
                 await editChannelButton.setLabel('Editar Canal').setCustomId('editChannel');
                 console.log(editChannelButton.customId);
                 await interaction.update({ components: [actionRow] });
-                await interaction.reply({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
-            } else if (interaction.customId === 'editChannel') {
+                await interaction.followUp({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
+                return;
+            }
+
+            if (interaction.customId === 'editChannel') {
                 await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
 
                 const filter = m.author.id === interaction.user.id;
