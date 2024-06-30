@@ -11,7 +11,7 @@ module.exports = {
         const member = interaction.options.getMember('membro');
         const db = await getDb();
         const VIPs = db.collection('VIPs');
-        const vipDoc = await VIPs.findOne({ userID: targetUser.id });
+        const vipDoc = await VIPs.findOne({ userID: member.id });
 
         console.log(vipDoc);
         interaction.reply(`Resultado enviado ao console.`);
