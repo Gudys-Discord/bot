@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, TextInputBuilder, ModalBuilder, PermissionsBitField, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, PermissionsBitField, ChannelType } = require('discord.js');
 const { getDb } = require('../../db');
 const vipManager = require('../../util/vipManager');
 
@@ -113,6 +113,8 @@ module.exports = {
                 });
 
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: newChannel.id } });
+                editChannelButton.setLabel('Editar Canal').setCustomId('editChannel');
+                await interaction.update({ components: [actionRow] });
                 await interaction.reply({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
             } else if (interaction.customId === 'editChannel') {
                 await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
