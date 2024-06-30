@@ -124,7 +124,7 @@ module.exports = {
             await interaction.reply({ content: 'Diga o novo nome do teu canal VIP.', ephemeral: false });
 
             const collector = interaction.channel.createMessageCollector({
-                filter: (message) => message.channelId === interaction.channelId, time: 15000 });
+                filter: (message) => message.channelId === interaction.channelId && message.author.id === interaction.member.id, time: 15_000 });
 
             collector.on('collect', async m => {
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
