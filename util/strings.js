@@ -59,6 +59,7 @@ module.exports = {
     permissionUpdated: (userId, allow, selectedCommand) => `O membro <@${userId}> ${allow ? 'agora pode usar' : 'não pode mais usar'} o comando com ID </${selectedCommand.name}:${selectedCommand.id}>.`,
     permissionUpdateError: 'Houve um erro ao atualizar as permissões.',
     pingResponse: (timeTaken) => `Pong! A latência é de ${timeTaken}ms.`,
+    inviteResponse: 'Clique [aqui](https://discord.com/oauth2/authorize?client_id=1248433405092429876&permissions=8&integration_type=0&scope=bot+applications.commands) para me adicionar a um novo servidor!',
     ownerOnly: 'Apenas o dono do servidor pode executar este comando.',
     permissions: {
         description: 'Gerenciar permissões de comando para membros específicos',
