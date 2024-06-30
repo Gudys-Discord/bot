@@ -129,8 +129,9 @@ module.exports = {
             collector.on('collect', async m => {
                 collector.stop();
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
-                await channel.setName(m.content);
-                await m.reply(`O nome do teu canal VIP foi alterado para ${m.content}`);
+                const newName = m.content.length > 25 ? m.content.slice(0, 25) + "..." : m.content;
+                await channel.setName(newName);
+                await m.reply(`O nome do teu canal VIP foi alterado para ${newName}`);
                 m.delete();
             });
         }
