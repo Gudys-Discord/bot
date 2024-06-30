@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, PermissionsBitField, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, PermissionsBitField, ChannelType, Message } = require('discord.js');
 const { getDb } = require('../../db');
 const vipManager = require('../../util/vipManager');
 
@@ -121,10 +121,10 @@ module.exports = {
             if (interaction.customId === 'editChannel') {
                 await interaction.reply({ content: 'Diga o novo nome do teu canal VIP', ephemeral: false });
 
-                const filter = m.author.id === interaction.user.id;
+                const filter = (m) => m.author.id === interaction.user.id;
                 const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
 
-                collector.on('collect', async m => {
+                collector.on('collect', async (m) => {
                     const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                     await channel.setName(m.content);
                     await m.reply(`O nome do seu canal VIP foi alterado para ${m.content}`);
