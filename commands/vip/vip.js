@@ -126,7 +126,7 @@ module.exports = {
             const filter = (message) => message.author.id === interaction.user.id;
             const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 10_000 });
         
-            collector.on('collect', async m => {
+            collector.once('collect', async m => {
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                 const newName = m.content.length > 25 ? m.content.slice(0, 25) + "..." : m.content;
                 await channel.setName(newName);
