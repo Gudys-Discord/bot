@@ -186,6 +186,8 @@ module.exports = {
         }
 
         async function removeVIP(interaction, targetUser, VIPs, vipDoc) {
+            interaction.deferUpdate();
+
             await VIPs.deleteOne({ userID: targetUser.id });
             const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
             const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
@@ -195,7 +197,6 @@ module.exports = {
             if (role) {
                 await role.delete();
             }
-            await interaction.update({ components: [] });
             await interaction.followUp({ content: `O VIP de <@${targetUser.id}> foi removido com sucesso!`, ephemeral: true });
         }
 
