@@ -186,7 +186,7 @@ module.exports = {
         }
 
         async function removeVIP(interaction, targetUser, VIPs, vipDoc) {
-            interaction.deferUpdate();
+            interaction.deferReply();
 
             await VIPs.deleteOne({ userID: targetUser.id });
             const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
