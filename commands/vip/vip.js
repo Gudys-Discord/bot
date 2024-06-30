@@ -113,7 +113,8 @@ module.exports = {
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipChannel: channel.id } });
                 await interaction.update({ components: [actionRow] });
                 await interaction.followUp({ content: `Canal VIP criado com sucesso!`, ephemeral: true });
-            } else if (newName) {
+                return;
+            } else if (channel && newName) {
                 const updatedName = newName.length > 25 ? newName.slice(0, 25) + "..." : newName;
                 await channel.setName(updatedName);
                 await interaction.followUp({ content: `O nome do teu canal VIP foi alterado para ${updatedName}`, ephemeral: true });
