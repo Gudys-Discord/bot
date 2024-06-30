@@ -7,12 +7,10 @@ module.exports = {
     
     async execute(interaction) {
         const devServers = [
-            '1256985143898411149',
-            '1256985179348799641',
-            '1256985200768843796',
-            '1256985232398090311',
-            '1256985333107527782',
-            '1256985881781469259'
+            '1256993570561196075',
+            '1256993603532623934',
+            '1256993648164212796',
+            '',
         ];
 
         interaction.reply({ content: 'Criando regras de automoderação...', ephemeral: true });
