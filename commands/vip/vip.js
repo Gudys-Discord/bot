@@ -152,20 +152,26 @@ module.exports = {
                 await interaction.member.roles.add(role);
                 await interaction.reply({ content: `Cargo VIP criado com sucesso!`, ephemeral: true });
                 await VIPs.updateOne({ userID: targetUser.id }, { $set: { vipRole: newRole.id } });
-            } else if (interaction.customId === 'editRole') {
-                await interaction.reply({ content: 'Diga o novo nome do teu cargo VIP.', ephemeral: false });
-
-                const filter = m.author.id === interaction.user.id;
-                const collector = interaction.channel.createMessageCollector({ filter, time: 15000 });
-
-                collector.on('collect', async m => {
-                    const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
-                    await role.setName(m.content);
-                    await m.reply(`O nome do seu cargo VIP foi alterado para ${m.content}`);
-                    m.delete();
-                });
+                return;
             }
+        }
 
+        async function editRole(interaction, vipDoc) {
+            await interaction.reply({ content: 'Diga o novo nome do teu cargo VIP.', ephemeral: false });
+        
+            const filter = (message) => message.author.id === interaction.user.id;
+            const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 10_000 });
+        
+            collector.on('collect', async m => {
+                collector.stop();
+                const role = interaction.guild.roles.cache.get(vipDoc.vipRole);
+                const newName = m.content.length > 15 ? m.content.slice(0, 15) + "..." : m.content;
+                await role.setName(newName);
+                await m.reply(`O nome do teu cargo VIP foi alterado para ${newName}`);
+                m.delete();
+
+                collector.stop();
+            });
         }
 
         async function changeDuration() {
@@ -259,16 +265,18 @@ module.exports = {
             switch (i.customId) {
                 case 'createChannel':
                     editChannelButton.setLabel('Editar Canal');
-                     console.log(editChannelButton.setCustomId('editChannel'));
+                    editChannelButton.setCustomId('editChannel');
                     await createChannel(i, vipDoc, targetUser, VIP, VIPs);
                     break;
                 case 'editChannel':
                     await editChannel(i, vipDoc);
                 case 'createRole':
+                    editRoleButton.setLabel('Editar Cargo');
+                    editRoleButton.setCustomId('editRole');
                     await createRole(i, vipDoc, VIPs);
                     break;
                 case 'editRole':
-                    await createRole(i, vipDoc, VIPs);
+                    await editRole(i, vipDoc);
                     break;
                 case 'changeDuration':
                     await i.deferUpdate();
