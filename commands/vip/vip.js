@@ -127,7 +127,6 @@ module.exports = {
             const collector = interaction.channel.createMessageCollector({ filter, max: 1, time: 10_000 });
         
             collector.on('collect', async m => {
-                collector.stop();
                 const channel = interaction.guild.channels.cache.get(vipDoc.vipChannel);
                 const newName = m.content.length > 25 ? m.content.slice(0, 25) + "..." : m.content;
                 await channel.setName(newName);
