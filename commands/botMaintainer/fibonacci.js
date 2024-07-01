@@ -12,6 +12,8 @@ module.exports = {
     async execute(interaction) {
         const index = interaction.options.getInteger('index');
 
+        const message = await interaction.channel.send({ content: 'Calculating...' });
+
         function fibonacci(n, memo = {}) {
             if (memo[n]) return memo[n];
             if (n <= 1) return n;
@@ -27,10 +29,12 @@ module.exports = {
 
         if (result.join(', ').length <= 2000) {
             embed.addFields({ name: 'Result', value: `\`\`\`${result.join(', ')}\`\`\`` });
+            message.delete();
             await interaction.reply({ embeds: [embed] });
         } else {
             const fileContent = result.join(', ');
             const file = new AttachmentBuilder(Buffer.from(fileContent, 'utf-8'), { name: `fibonacci_${length}.txt` });
+            message.edit({ content: 'Result too long, sending as file...' });
             await interaction.reply({ files: [file] });
         }
     },
