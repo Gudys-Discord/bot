@@ -12,6 +12,8 @@ module.exports = {
     async execute(interaction) {
         const index = interaction.options.getInteger('index');
 
+        interaction.reply({ content: 'Calculating...', ephemeral: false });
+
         function fibonacci(n) {
             let a = BigInt(0), b = BigInt(1), temp;
             for (let i = 0; i < n; i++) {
