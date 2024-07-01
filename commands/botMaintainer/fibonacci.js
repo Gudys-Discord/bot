@@ -11,7 +11,6 @@ module.exports = {
 
     async execute(interaction) {
         const index = interaction.options.getInteger('index');
-
         const message = await interaction.channel.send({ content: 'Calculating...' });
 
         function fibonacci(n, memo = {}) {
@@ -20,22 +19,22 @@ module.exports = {
             return memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
         }
 
-        const result = fibonacci(index);
+        const result = fibonacci(index).toString();
 
         const embed = new EmbedBuilder()
             .setColor('#0099ff')
-            .setTitle('Fibonacci Sequence')
+            .setTitle('Fibonacci Number')
             .setDescription(`The Fibonacci number at index ${index} is:`);
 
-        if (result.join(', ').length <= 2000) {
-            embed.addFields({ name: 'Result', value: `\`\`\`${result.join(', ')}\`\`\`` });
-            message.delete();
+        if (result.length <= 2000) {
+            embed.addFields({ name: 'Result', value: `\`\`\`${result}\`\`\`` });
+            await message.delete();
             await interaction.reply({ embeds: [embed] });
         } else {
-            const fileContent = result.join(', ');
-            const file = new AttachmentBuilder(Buffer.from(fileContent, 'utf-8'), { name: `fibonacci_${length}.txt` });
-            message.edit({ content: 'Result too long, sending as file...' });
-            await interaction.reply({ files: [file] });
+            const fileContent = result;
+            const file = new AttachmentBuilder(Buffer.from(fileContent, 'utf-8'), { name: `fibonacci_${index}.txt` });
+            await message.delete();
+            await interaction.reply({ content: 'Result too long, sending as file...', files: [file] });
         }
     },
 };
