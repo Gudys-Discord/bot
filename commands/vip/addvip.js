@@ -12,8 +12,13 @@ module.exports = {
         const db = await getDb();
         const VIPs = db.collection('VIPs');
         const vipDoc = await VIPs.findOne({ userID: member.id });
+        const vipRole = vipDoc ? interaction.guild.roles.cache.get(vipDoc.vipRole) : null;
 
-        console.log(vipDoc);
-        interaction.reply(`Resultado enviado ao console.`);
+        if (vipRole) {
+            await member.roles.add(vipRole);
+            await interaction.reply(strings.addVipSuccess(member));
+        } else {
+            await interaction.reply(strings.addVipFailure(member));
+        }
 	},
 };

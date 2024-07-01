@@ -73,6 +73,8 @@ module.exports = {
         hasPermissionAlready: 'O membro já tem essa permissão.',
         success: (userId, allow) => `O membro <@${userId}> agora ${allow ? 'pode' : 'não pode mais'} usar o comando </${selectedCommand.name}:${selectedCommand.id}>`,
     },
+    addVipSuccess: (member) => `O membro ${member.user.tag} recebeu a sua tag VIP!`,
+    addVipFailure: (member) => `Houve um erro ao adicionar a tag VIP para ${member.user.tag}`,
     setvip: {
         description: 'Definir um membro como VIP',
         add: 'Definir um membro como VIP',
