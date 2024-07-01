@@ -11,7 +11,6 @@ module.exports = {
 
     async execute(interaction) {
         const index = interaction.options.getInteger('index');
-        const message = await interaction.reply({ content: 'Calculating...', ephemeral: false });
 
         function fibonacci(n) {
             let a = BigInt(0), b = BigInt(1), temp;
@@ -32,11 +31,11 @@ module.exports = {
 
         if (result.length <= 2000) {
             embed.addFields({ name: 'Result', value: `\`\`\`${result}\`\`\`` });
-            await interaction.update({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
         } else {
             const fileContent = result;
             const file = new AttachmentBuilder(Buffer.from(fileContent, 'utf-8'), { name: `fibonacci_${index}.txt` });
-            await interaction.update({ content: 'Result too long, sending as file...', files: [file] });
+            await interaction.editReply({ content: 'Result too long, sending as file...', files: [file] });
         }
     },
 };
